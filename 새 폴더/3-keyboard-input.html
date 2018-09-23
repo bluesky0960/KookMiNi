@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -46,6 +46,7 @@ var chatWindow = new Bubbles(document.getElementById("chat"), "chatWindow", {
   // this is where you may want to connect this script to NLC backend.
   inputCallbackFn: function(o) {
     // add error conversation block & recall it if no answer matched
+    // 키보드에 질문을 했을때 원하는 그 대답에 대한 함수가 없을경우
     var miss = function() {
       chatWindow.talk(
         {
@@ -85,38 +86,106 @@ var chatWindow = new Bubbles(document.getElementById("chat"), "chatWindow", {
 
 // conversation object defined separately, but just the same as in the
 // "Basic chat-bubble Example" (1-basics.html)
-var convo = {
-  ice: {
-    says: ["Hi", "Would you like banana or ice cream?"],
+  var convo = {
+      //초기에 접속 했을때 나오는 질문
+      ice: {
+          says: ["안녕", "나는 국미니라고해", "어떤것이 궁금하니?"], //최초 질문
+          reply: [
+              {
+            //학식
+            //학식이라고 질문 했을때
+            question: "학식",
+            //대답
+            answer: "Meal" //Meal 함수로 이동(학교 학식을 파싱해서 문장 출력)
+                },
+        {
+        question: "날씨",
+                answer: "today_weather"
+              },
+              {
+                  //도서관 자리 여부
+                  question: "도서관 자리",
+                  answer: "library_sit"
+              },
+              {
+                  //프린트 위치
+                  question: "프린트",
+                  answer: "Where_Print"
+              }
+    ]
+  },
+  //대답하고 다시 물어볼때
+  Start: {
+    says: ["또 어떤 것이 궁금하니?"],
     reply: [
       {
-        question: "Banana",
-        answer: "banana"
+        //학식
+        //학식이라고 질문 했을때
+        question: "학식",
+        //대답
+        answer: "Meal" //Meal 함수로 이동(학교 학식을 파싱해서 문장 출력)
       },
       {
-        question: "Ice Cream",
-        answer: "ice-cream"
+        //날씨
+        question: "날씨",
+        answer: "today_weather"
+      },
+      {
+        //도서관 자리 여부
+        question: "도서관 자리",
+        answer: "library_sit"
+      },
+      {
+        //프린트 위치
+        question: "프린트",
+        answer: "Where_Print"
       }
     ]
   },
-  banana: {
-    says: ["🍌"],
+
+  //학식
+  Meal: {
+    says: ["ㅁㄴㅇㄹ"], //채워야 하는 부분
     reply: [
       {
-        question: "Start Over",
-        answer: "ice"
+
+        question: "Start Over", //이 버튼을 누루면
+        answer: "Start" // start함수로 이동
       }
     ]
+    },
+
+  //날씨
+  "today_weather": {
+    says: ["ㅁㄴㅇㄹ"], //API 채워야 하는 부분
+    reply: [
+      {
+        question: "Start Over", //이 버튼을 누르면
+        answer: "Start" //start함수로 이동
+      }
+    ]
+  }, 
+    //도서관 자리 여부
+  "library_sit": {
+      says: ["ㅁㄴㅇㄹ"], //파싱
+      reply: [
+        {
+          question: "Start Over", //이 버튼을 누르면
+          answer: "Start" //start함수로 이동
+        }
+      ]
   },
-  "ice-cream": {
-    says: ["🍦"],
-    reply: [
-      {
-        question: "Start Over",
-        answer: "ice"
-      }
-    ]
-  }
+
+    //프린트 위치
+  "Where_Print": {
+      says: ["ㅁㄴㅇㄹ"], //파싱
+      reply: [
+        {
+          question: "Start Over", //이 버튼을 누르면
+          answer: "Start" //start함수로 이동
+        }
+      ]
+    }
 }
 
 // pass JSON to your function and you're done!
