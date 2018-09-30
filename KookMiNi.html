@@ -8,11 +8,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- stylesheets are conveniently separated into components -->
-	<link rel="stylesheet" media="all" href="../component/styles/setup.css">
-	<link rel="stylesheet" media="all" href="../component/styles/says.css">
-	<link rel="stylesheet" media="all" href="../component/styles/reply.css">
-	<link rel="stylesheet" media="all" href="../component/styles/typing.css">
-	<link rel="stylesheet" media="all" href="../component/styles/input.css">
+	<link rel="stylesheet" media="all" href="component/styles/setup.css">
+	<link rel="stylesheet" media="all" href="component/styles/says.css">
+	<link rel="stylesheet" media="all" href="component/styles/reply.css">
+	<link rel="stylesheet" media="all" href="component/styles/typing.css">
+	<link rel="stylesheet" media="all" href="component/styles/input.css">
 	<style>
 	body {
 		background: #dcdde0;
@@ -32,7 +32,7 @@
 <div id="chat"></div>
 
 <!-- import the JavaScript file -->
-<script src="../component/Bubbles.js"></script>
+<script src="component/Bubbles.js"></script>
 <script>
 // initialize by constructing a named function...
 // ...and add text processing plugin:
@@ -52,7 +52,7 @@ var chatWindow = new Bubbles(document.getElementById("chat"), "chatWindow", {
         {
           "i-dont-get-it": {
             says: [
-              "Sorry, I don't get it 😕. Pls repeat? Or you can just click below 👇"
+              "잘 모르겠어.. 밑에 버튼 눌러줄래?"
             ],
             reply: o.convo[o.standingAnswer].reply
           }
@@ -146,6 +146,7 @@ var chatWindow = new Bubbles(document.getElementById("chat"), "chatWindow", {
   //학식
   Meal: {
     says: ["ㅁㄴㅇㄹ"], //채워야 하는 부분
+
     reply: [
       {
 
