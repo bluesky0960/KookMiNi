@@ -1,57 +1,90 @@
 // core function
 function Bubbles(container, self, options) {
   // options
-  options = typeof options !== "undefined" ? options : {}
-  animationTime = options.animationTime || 200 // how long it takes to animate chat bubble, also set in CSS
-  typeSpeed = options.typeSpeed || 5 // delay per character, to simulate the machine "typing"
-  widerBy = options.widerBy || 2 // add a little extra width to bubbles to make sure they don't break
-  sidePadding = options.sidePadding || 6 // padding on both sides of chat bubbles
-  recallInteractions = options.recallInteractions || 0 // number of interactions to be remembered and brought back upon restart
-  inputCallbackFn = options.inputCallbackFn || false // should we display an input field?
+    options = typeof options !== "undefined" ? options : {}
 
-  var standingAnswer = "ice" // remember where to restart convo if interrupted
 
-  var _convo = {} // local memory for conversation JSON object
+    animationTime = options.animationTime || 200 //채팅창을 애니메이션 하는데 걸리는 시간
+
+    typeSpeed = options.typeSpeed || 5 // delay per character, to simulate the machine "typing"
+
+    widerBy = options.widerBy || 2 // 깨짐 방지?
+
+    sidePadding = options.sidePadding || 6 // padding on both sides of chat bubbles
+
+    recallInteractions = options.recallInteractions || 0
+    // number of interactions to be remembered and brought back upon restart
+    //다시 시작 시 기억하고 다시 가져올 상호 작용 수
+
+    inputCallbackFn = options.inputCallbackFn || false
+    // should we display an input field?
+    //입력 필드를 표시해야합니까??
+
+
+    var standingAnswer = "ice"
+    // remember where to restart convo if interrupted
+    //중단 됐을때 다시 시작할 위치
+
+
+    var _convo = {}
+    // local memory for conversation JSON object
+    // JSON object 대화를 위한 로컬 메모리?
+
   //--> NOTE that this object is only assigned once, per session and does not change for this
+
   // 		constructor name during open session.
 
+
   // local storage for recalling conversations upon restart
-  var localStorageCheck = function() {
-    var test = "chat-bubble-storage-test"
-    try {
-      localStorage.setItem(test, test)
-      localStorage.removeItem(test)
-      return true
-    } catch (error) {
-      console.error(
-        "Your server does not allow storing data locally. Most likely it's because you've opened this page from your hard-drive. For testing you can disable your browser's security or start a localhost environment."
-      )
-      return false
+
+    var localStorageCheck = function () {
+        var test = "chat-bubble-storage-test"
+        try {
+            localStorage.setItem(test, test)
+            localStorage.removeItem(test)
+            return true
+        }
+
+        catch (error) {
+            console.error(
+                "Your server does not allow storing data locally. Most likely it's because you've opened this page from your hard-drive. For testing you can disable your browser's security or start a localhost environment."
+            )
+            return false
+
+        }
     }
-  }
-  var localStorageAvailable = localStorageCheck() && recallInteractions > 0
-  var interactionsLS = "chat-bubble-interactions"
-  var interactionsHistory =
-    (localStorageAvailable &&
-      JSON.parse(localStorage.getItem(interactionsLS))) ||
-    []
 
-  // prepare next save point
-  interactionsSave = function(say, reply) {
-    if (!localStorageAvailable) return
+    var localStorageAvailable = localStorageCheck() && recallInteractions > 0
+
+    var interactionsLS = "chat-bubble-interactions"
+
+    var interactionsHistory =
+
+        (localStorageAvailable &&
+
+            JSON.parse(localStorage.getItem(interactionsLS))) ||
+
+        []
+
+    // prepare next save point
+    // 다음 절약 지점을 준비한다?
+    interactionsSave = function (say, reply)
+    {
+        if (!localStorageAvailable) return
     // limit number of saves
-    if (interactionsHistory.length > recallInteractions)
-      interactionsHistory.shift() // removes the oldest (first) save to make space
 
-    // do not memorize buttons; only user input gets memorized:
-    if (
+        if (interactionsHistory.length > recallInteractions)
+            interactionsHistory.shift() // removes the oldest (first) save to make space
+
+        // do not memorize buttons; only user input gets memorized:
+        if (
       // `bubble-button` class name signals that it's a button
-      say.includes("bubble-button") &&
-      // if it is not of a type of textual reply
-      reply !== "reply reply-freeform" &&
-      // if it is not of a type of textual reply or memorized user choice
-      reply !== "reply reply-pick"
-    )
+            say.includes("bubble-button") &&
+            // if it is not of a type of textual reply
+            reply !== "reply reply-freeform" &&
+            // if it is not of a type of textual reply or memorized user choice
+            reply !== "reply reply-pick"
+        )
       // ...it shan't be memorized
       return
 
