@@ -72,7 +72,7 @@ function Bubbles(container, self, options) {
     {
         if (!localStorageAvailable) return
     // limit number of saves
-
+    // 절약 횟수 제한?
         if (interactionsHistory.length > recallInteractions)
             interactionsHistory.shift() // removes the oldest (first) save to make space
 
@@ -92,11 +92,11 @@ function Bubbles(container, self, options) {
     interactionsHistory.push({ say: say, reply: reply })
   }
 
-  // commit save to localStorage
-  interactionsSaveCommit = function() {
-    if (!localStorageAvailable) return
-    localStorage.setItem(interactionsLS, JSON.stringify(interactionsHistory))
-  }
+    // commit save to localStorage
+    interactionsSaveCommit = function () {
+        if (!localStorageAvailable)
+            return localStorage.setItem(interactionsLS, JSON.stringify(interactionsHistory))
+    }
 
   // set up the stage
   container.classList.add("bubble-container")
@@ -104,24 +104,25 @@ function Bubbles(container, self, options) {
   bubbleWrap.className = "bubble-wrap"
   container.appendChild(bubbleWrap)
 
-  // install user input textfield
-  this.typeInput = function(callbackFn) {
-    var inputWrap = document.createElement("div")
-    inputWrap.className = "input-wrap"
-    var inputText = document.createElement("textarea")
-    inputText.setAttribute("placeholder", "Ask me anything...")
-    inputWrap.appendChild(inputText)
-    inputText.addEventListener("keypress", function(e) {
-      // register user input
-      if (e.keyCode == 13) {
-        e.preventDefault()
-        typeof bubbleQueue !== false ? clearTimeout(bubbleQueue) : false // allow user to interrupt the bot
-        var lastBubble = document.querySelectorAll(".bubble.say")
-        lastBubble = lastBubble[lastBubble.length - 1]
-        lastBubble.classList.contains("reply") &&
-        !lastBubble.classList.contains("reply-freeform")
-          ? lastBubble.classList.add("bubble-hidden")
-          : false
+    // install user input textfield
+
+    this.typeInput = function (callbackFn) {
+        var inputWrap = document.createElement("div")
+        inputWrap.className = "input-wrap"
+        var inputText = document.createElement("textarea")
+        inputText.setAttribute("placeholder", "Ask me anything...")
+        inputWrap.appendChild(inputText)
+        inputText.addEventListener("keypress", function(e) {
+            // register user input
+            if (e.keyCode == 13) {
+                e.preventDefault()
+                typeof bubbleQueue !== false ? clearTimeout(bubbleQueue) : false // allow user to interrupt the bot
+                var lastBubble = document.querySelectorAll(".bubble.say")
+                lastBubble = lastBubble[lastBubble.length - 1]
+                lastBubble.classList.contains("reply") &&
+                !lastBubble.classList.contains("reply-freeform")
+                ? lastBubble.classList.add("bubble-hidden")
+                : false
         addBubble(
           '<span class="bubble-button bubble-pick">' + this.value + "</span>",
           function() {},
@@ -144,15 +145,16 @@ function Bubbles(container, self, options) {
   }
   inputCallbackFn ? this.typeInput(inputCallbackFn) : false
 
-  // init typing bubble
-  var bubbleTyping = document.createElement("div")
-  bubbleTyping.className = "bubble-typing imagine"
-  for (dots = 0; dots < 3; dots++) {
-    var dot = document.createElement("div")
-    dot.className = "dot_" + dots + " dot"
-    bubbleTyping.appendChild(dot)
-  }
-  bubbleWrap.appendChild(bubbleTyping)
+    // init typing bubble
+    // 입력 버블 초기화
+    var bubbleTyping = document.createElement("div") //doucment에 새로운 태그를 만듭니다. 
+    bubbleTyping.className = "bubble-typing imagine"
+    for (dots = 0; dots < 3; dots++) {
+        var dot = document.createElement("div")
+        dot.className = "dot_" + dots + " dot"
+        bubbleTyping.appendChild(dot)
+    }
+    bubbleWrap.appendChild(bubbleTyping)
 
   // accept JSON & create bubbles
   this.talk = function(convo, here) {
@@ -162,8 +164,9 @@ function Bubbles(container, self, options) {
     this.reply(_convo[here])
     here ? (standingAnswer = here) : false
   }
-
-  var iceBreaker = false // this variable holds answer to whether this is the initative bot interaction or not
+    // this variable holds answer to whether this is the initative bot interaction or not
+    // 초기 봇 상호작용인지 아닌지에 대한 답을 유지?
+    var iceBreaker = false 
   this.reply = function(turn) {
     iceBreaker = typeof turn === "undefined"
     turn = !iceBreaker ? turn : _convo.ice
@@ -213,13 +216,15 @@ function Bubbles(container, self, options) {
     }
   }
 
-  // api for typing bubble
-  this.think = function() {
-    bubbleTyping.classList.remove("imagine")
-    this.stop = function() {
-      bubbleTyping.classList.add("imagine")
+
+    // api for typing bubble
+    // 타이핑 버플을 위한 api
+    this.think = function() {
+        bubbleTyping.classList.remove("imagine")
+        this.stop = function () {
+            bubbleTyping.classList.add("imagine")
+        }
     }
-  }
 
   // "type" each message within the group
   var orderBubbles = function(q, callback) {
