@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/dmitrizzle/chat-bubble/issues"
   },
-  "homepage": "https://github.com/dmitrizzle/chat-bubble#readme"
+  "homepage": "https://github.com/dmitrizzle/chat-bubble#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "cheerio-httpcli": "^0.7.3",
+    "request": "^2.88.0"
+  }
 }
