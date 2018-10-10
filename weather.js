@@ -1,5 +1,5 @@
 //사용하기 위해서는 cheerio-httpcli 모듈이 필요하므로 
-//cmd에 npm install cheerio - httpchli를 하여 모듈 설치
+//cmd에 npm install cheerio-httpcli를 하여 모듈 설치
 
 //기상 RSS
 var RSS = "http://web.kma.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=109";
@@ -17,6 +17,12 @@ client.fetch(RSS, {}, function (err, $, res) {
         var tmn = $(this).find('tmn').text();//시간 처음
         var tmx = $(this).find('tmx').text();//시간 끝
 
-        console.log(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
+        var text_alr = function () {
+            alert(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
+        }
+        //console.log(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
     });
 });
+document.getElementById('box').onclick = function () {
+    text_alr();
+}
