@@ -4,13 +4,16 @@ function Bubbles(container, self, options) {
     options = typeof options !== "undefined" ? options : {}
 
 
-    animationTime = options.animationTime || 200 //채팅창을 애니메이션 하는데 걸리는 시간
+    animationTime = options.animationTime || 10 //채팅창을 애니메이션 하는데 걸리는 시간
 
-    typeSpeed = options.typeSpeed || 5 // delay per character, to simulate the machine "typing"
+    typeSpeed = options.typeSpeed || 5 // 채팅창에 나오는 글씨를 쓰는데 걸리는 시간
 
-    widerBy = options.widerBy || 2 // 깨짐 방지?
+    widerBy = options.widerBy || 2 // 채팅창 버블과 글씨간의 여백 간격
 
-    sidePadding = options.sidePadding || 6 // padding on both sides of chat bubbles
+    sidePadding = options.sidePadding || 6
+    // 챗버블의 안쪽 여백 크기 설정
+    //크기 변경시 검은색 버블만 적용
+    //함수를 검은색 버블에서만 호출하는 듯
 
     recallInteractions = options.recallInteractions || 0
     // number of interactions to be remembered and brought back upon restart
@@ -36,8 +39,8 @@ function Bubbles(container, self, options) {
 
 
   // local storage for recalling conversations upon restart
-
-    var localStorageCheck = function () {
+  
+    var localStorageCheck = function () {// 로컬 메모리 체크 (로컬에 저장이 안되면 에러 표시)
         var test = "chat-bubble-storage-test"
         try {
             localStorage.setItem(test, test)
@@ -67,16 +70,18 @@ function Bubbles(container, self, options) {
         []
 
     // prepare next save point
-    // 다음 절약 지점을 준비한다?
+    // 다음 저장 위치를 준비
     interactionsSave = function (say, reply)
     {
         if (!localStorageAvailable) return
     // limit number of saves
-    // 절약 횟수 제한?
+    // 저장 횟수 제한
         if (interactionsHistory.length > recallInteractions)
-            interactionsHistory.shift() // removes the oldest (first) save to make space
+            interactionsHistory.shift() // removes the oldest (first) save to make space 
+                                        //첫번째 저장된 정보를 삭제해 공간 확보
 
         // do not memorize buttons; only user input gets memorized:
+        // 버튼은 기억하지 않고, 유저의 입력값만 기억
         if (
       // `bubble-button` class name signals that it's a button
             say.includes("bubble-button") &&
@@ -89,23 +94,26 @@ function Bubbles(container, self, options) {
       return
 
     // save to memory
+    //메모리에 저장
     interactionsHistory.push({ say: say, reply: reply })
   }
 
     // commit save to localStorage
+    // 로컬저장소에 커밋후 저장
     interactionsSaveCommit = function () {
         if (!localStorageAvailable)
             return localStorage.setItem(interactionsLS, JSON.stringify(interactionsHistory))
     }
 
   // set up the stage
+  //환경 설정
   container.classList.add("bubble-container")
   var bubbleWrap = document.createElement("div")
   bubbleWrap.className = "bubble-wrap"
   container.appendChild(bubbleWrap)
 
     // install user input textfield
-
+    
     this.typeInput = function (callbackFn) {
         var inputWrap = document.createElement("div")
         inputWrap.className = "input-wrap"
@@ -146,7 +154,7 @@ function Bubbles(container, self, options) {
   inputCallbackFn ? this.typeInput(inputCallbackFn) : false
 
     // init typing bubble
-    // 입력 버블 초기화
+    // 입력 버블 생성
     var bubbleTyping = document.createElement("div") //doucment에 새로운 태그를 만듭니다. 
     bubbleTyping.className = "bubble-typing imagine"
     for (dots = 0; dots < 3; dots++) {
@@ -165,7 +173,7 @@ function Bubbles(container, self, options) {
     here ? (standingAnswer = here) : false
   }
     // this variable holds answer to whether this is the initative bot interaction or not
-    // 초기 봇 상호작용인지 아닌지에 대한 답을 유지?
+    // 이 변수는 초기 봇이 상호작용을 하는지 안 하는지에 대해 저장
     var iceBreaker = false 
   this.reply = function(turn) {
     iceBreaker = typeof turn === "undefined"
@@ -341,6 +349,7 @@ function Bubbles(container, self, options) {
 }
 
 // below functions are specifically for WebPack-type project that work with import()
+//webpack타입 프로젝트를 위한 함수이다.
 
 // this function automatically adds all HTML and CSS necessary for chat-bubble to function
 function prepHTML(options) {
