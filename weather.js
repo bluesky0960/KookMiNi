@@ -17,6 +17,12 @@ client.fetch(RSS, {}, function (err, $, res) {
         var tmn = $(this).find('tmn').text();//시간 처음
         var tmx = $(this).find('tmx').text();//시간 끝
 
-        console.log(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
+        var text_alr = function () {
+            alert(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
+        }
+        //console.log(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
     });
 });
+document.getElementById('box').onclick = function () {
+    text_alr();
+}
