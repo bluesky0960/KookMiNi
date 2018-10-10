@@ -1,5 +1,5 @@
 //사용하기 위해서는 cheerio-httpcli 모듈이 필요하므로 
-//cmd에 npm install cheerio - httpchli를 하여 모듈 설치
+//cmd에 npm install cheerio-httpcli를 하여 모듈 설치
 
 //기상 RSS
 var RSS = "http://web.kma.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=109";
