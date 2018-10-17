@@ -1,0 +1,11 @@
+1. npm install -g browserify
+
+2. browserify 대상.js -o 결과물이름.js
+
+2-1. require가 여러 개 이면
+browserify -r (require1) -r (require2) 대상.js -o 결과물이름.js
+
+
+-Allow-Control-Allow-Origin error 처리법.
+script내부에서 외부의 웹페이지에 접근할 때 발생. 근본적 해결책은 어려워서 아직 해결 불가. 크롬 확장프로그램 설치로 해결.
+https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi/related?hl=ko

@@ -33,9 +33,12 @@
 
     <!-- import the JavaScript file -->
     <script src="component/Bubbles.js"></script>
-    <script src="src/weather.js"></script>
+    <script src="src/new_library_place.js"></script>
+    <script src="src/new_weather.js"></script>
     
-    <script>
+    
+    <script >
+        
         // initialize by constructing a named function...
         // ...and add text processing plugin:
         var chatWindow = new Bubbles(document.getElementById("chat"), "chatWindow", {
@@ -158,8 +161,9 @@
             },
 
             //날씨
+         
             "today_weather": {
-                says: ["a"], //API 채워야 하는 부분
+                says: ["aa"], //API 채워야 하는 부분
                 reply: [
                     {
                         question: "Start Over", //이 버튼을 누르면
@@ -169,7 +173,7 @@
             },
             //도서관 자리 여부
             "library_sit": {
-                says: ["ㅁㄴㅇㄹ"], //파싱
+                says: [], //파싱
                 reply: [
                     {
                         question: "Start Over", //이 버튼을 누르면
