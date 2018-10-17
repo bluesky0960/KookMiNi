@@ -16,7 +16,7 @@ request(url, (error, response, body) => {
     console.log($('body > div > div > div.dv1 > div.smid > div.detail > table:nth-child(3) > tbody').text().trim());
 
 });
-/*
+
 var strContents = new Buffer(body, 'binary');
     var iconv = new Iconv('euc-kr', 'utf-8');
     strContents = iconv.convert(strConTents).toString('utf-8');
@@ -35,4 +35,4 @@ $('table').find('tr').each(function (index, elem) {
         console.log(`${corner} -> ${menu}`);
       }
     });
-    */
+    
