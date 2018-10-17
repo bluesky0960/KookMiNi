@@ -1,28 +1,33 @@
-//사용하기 위해서는 cheerio-httpcli 모듈이 필요하므로 
-//cmd에 npm install cheerio-httpcli를 하여 모듈 설치
+var cheerio = require('cheerio');
+var request = require('request');
 
-//기상 RSS
-var RSS = "http://web.kma.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=109";
-//모듈로드
-var client = require('cheerio-httpcli');
-//RSS모듈 다운로드
-client.fetch(RSS, {}, function (err, $, res) {
-    if (err) { console.log("error"); return; }
-    //필요한 항목만 추출해서 표시
-    var city = $("location:nth-child(1) > city").text();
-    $("location:nth-child(1) > data").each(function (idx) {
+var url = "https://weather.naver.com/rgn/cityWetrMain.nhn";
+request(url, function (error, response, html) {
+  if (error) {throw error};
 
-        var tmEf = $(this).find('tmEf').text();//날짜
-        var wf = $(this).find('wf').text();//날씨
-        var tmn = $(this).find('tmn').text();//시간 처음
-        var tmx = $(this).find('tmx').text();//시간 끝
+  var $ = cheerio.load(html);
 
-        //var text_alr = function () {
-        //    alert(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
-        //}
-        console.log(city + " " + tmEf + " " + wf + " " + tmn + "~" + tmx);
-    });
+  try{
+      var place;
+      $('tbody').find('tr').each(function(index, elem){
+              $(this).find('th').find('a').each(function (index, elem) {
+                  if(index==0) {
+                      place = $(this).text().trim();
+                      console.log(place);
+                  }
+              });
+              $(this).find('td').find('li').each(function (index, elem) {
+                  if(index==0 || index==1) {
+                      var weather = $(this).text().trim();
+                      console.log(weather);
+                  }
+              });
+
+      });
+
+  }catch (error) {
+      console.error(error);
+  }
 });
-//document.getElementById('box').onclick = function () {
-//    text_alr();
-//}
+
+
