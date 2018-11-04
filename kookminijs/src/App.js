@@ -16,6 +16,8 @@ class App extends Component {
           input:"",
           user: null
         };
+
+        this.checkAuthState();
     }
     //버튼이 클릭되었을때 input값을 Text입력값으로 변경
     _handleText=(e)=>{
@@ -39,6 +41,14 @@ class App extends Component {
           });
         });
     }
+    //login 상태 확인
+    checkAuthState = () =>{
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          this.setState({ user });
+        } 
+      });
+    }  
     //input값으로 검색 default는 검색어가 스위치문에 없을시 실행
     search =(input)=>{
       switch (input) {
