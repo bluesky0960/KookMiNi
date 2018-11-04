@@ -10,10 +10,20 @@ let config = {
     storageBucket: "kookmini-75897.appspot.com",
     messagingSenderId: "1639863058"
 };
+firebase.initializeApp(config);
 
+export const provider = new firebase.auth.GoogleAuthProvider();
+export const auth = firebase.auth();
+
+database = firebase.database();
+
+export default firebase;
+
+
+/**
 export const fire = () => {
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
     }
   database = firebase.database();
-};
+};*/

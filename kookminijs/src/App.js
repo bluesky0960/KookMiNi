@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {fire} from './firebase';
+import firebase, {auth, provider}from './firebase';
 import logo from './logo.svg';
 import './App.css';
 
@@ -8,13 +8,37 @@ class App extends Component {
   //동적인 데이터는 state로 관리
     constructor(props){
         super(props);// 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
-        fire();
-        this.state={input:""};
+        
+        this.login = this.login.bind(this); 
+        this.logout = this.logout.bind(this); 
+        
+        this.state={
+          input:"",
+          user: null
+        };
     }
     //버튼이 클릭되었을때 input값을 Text입력값으로 변경
     _handleText=(e)=>{
         this.setState({input: e.target.value});
     };
+
+    //logout 버튼 실행시 user값 null
+    logout = () =>{
+      auth.signOut().then(() => {
+          this.setState({
+            user: null
+          });
+        });
+    }
+    //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
+    login = () =>{
+      auth.signInWithPopup(provider).then((result) => {
+          const user = result.user;
+          this.setState({
+            user
+          });
+        });
+    }
     //input값으로 검색 default는 검색어가 스위치문에 없을시 실행
     search =(input)=>{
       switch (input) {
@@ -49,18 +73,16 @@ class App extends Component {
                 () => this.search(this.state.input)}>
             검색
           </button>
+          {this.state.user ?
+            <button onClick={this.logout}>sign Out</button>                
+            :
+            <button onClick={this.login}>Sign in with Google</button>              
+          }
           <button
               onClick={
                 () => this.note(this.state.input)
               }>
             메모
-          </button>
-          <button
-            onClick={
-              () => fire.signIn()
-            }
-          >
-            Sign in with Google
           </button>
         </header>
       </div>
