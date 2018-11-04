@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {fire} from './firebase';
 import logo from './logo.svg';
 import './App.css';
 
@@ -7,6 +8,7 @@ class App extends Component {
   //동적인 데이터는 state로 관리
     constructor(props){
         super(props);// 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
+        fire();
         this.state={input:""};
     }
     //버튼이 클릭되었을때 input값을 Text입력값으로 변경
@@ -25,7 +27,8 @@ class App extends Component {
       }
     };
     //메모 함수 구현
-    note=()=>{
+    note=(input)=>{
+
 
     };
     //화면에 랜더링(표시)
@@ -48,9 +51,16 @@ class App extends Component {
           </button>
           <button
               onClick={
-                () => this.note()
+                () => this.note(this.state.input)
               }>
             메모
+          </button>
+          <button
+            onClick={
+              () => fire.signIn()
+            }
+          >
+            Sign in with Google
           </button>
         </header>
       </div>
