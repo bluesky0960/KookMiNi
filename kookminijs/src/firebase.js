@@ -3,12 +3,12 @@ import * as firebase from 'firebase';
 let database;
 
 let config = {
-    apiKey: "AIzaSyAphXzqH9dI-x4hveZ2LiaSTJrYZg3mAWU",
-    authDomain: "kookmini-75897.firebaseapp.com",
-    databaseURL: "https://kookmini-75897.firebaseio.com",
-    projectId: "kookmini-75897",
-    storageBucket: "kookmini-75897.appspot.com",
-    messagingSenderId: "1639863058"
+    apiKey: "AIzaSyBzCweZbwlYmy7MZLeO8vi2kMfpCvWxLKc",
+    authDomain: "kookmini-73ede.firebaseapp.com",
+    databaseURL: "https://kookmini-73ede.firebaseio.com",
+    projectId: "kookmini-73ede",
+    storageBucket: "kookmini-73ede.appspot.com",
+    messagingSenderId: "99482876663"
 };
 firebase.initializeApp(config);
 
