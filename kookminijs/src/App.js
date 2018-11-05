@@ -61,9 +61,13 @@ class App extends Component {
       }
     };
     //메모 함수 구현
-    note=(input)=>{
+    note = (input) => {
 
 
+        /*firebase.database().ref('memos/').set({
+            name: firebase.auth().uid,
+            text: input,
+        })*/
     };
     //화면에 랜더링(표시)
   render() {
