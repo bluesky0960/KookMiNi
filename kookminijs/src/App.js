@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import firebase, {auth, provider} from './firebase';
+import firebase, {auth, provider}from './firebase';
 import logo from './logo.svg';
 import './App.css';
-import { userInfo } from 'os';
 
 class App extends Component {
   //생성자 props는 부모 클래스에서 받아오는변하지 않는 값. 받아온 값은 수정할 수 없음
@@ -62,8 +61,16 @@ class App extends Component {
       }
     };
     //메모 함수 구현
-    note=(input)=>{
-
+    note = (input) => {
+        var memoRef = firebase.database().ref('memos/' + auth.uid);
+        var txt = input;
+        if (txt == '') {
+            return;
+        }
+        memoRef.push({
+            txt: txt,
+            creatData : new Date().getTime()
+        })
     };
     //화면에 랜더링(표시)
   render() {
