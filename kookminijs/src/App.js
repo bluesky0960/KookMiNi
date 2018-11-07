@@ -62,15 +62,22 @@ class App extends Component {
     };
     //메모 함수 구현
     note = (input) => {
-        var memoRef = firebase.database().ref('memos/' + auth.uid);
-        var txt = input;
-        if (txt == '') {
-            return;
-        }
-        memoRef.push({
-            txt: txt,
-            creatData : new Date().getTime()
-        })
+
+      if(this.state.user===null){
+        alert("Google login 해주세요.");
+      }else{
+          var memoRef = firebase.database().ref('memos/' + this.state.user.uid);
+          var txt = input;
+          if (txt === '') {
+              return;
+          }
+          memoRef.push({
+              txt: txt,
+              creatData : new Date().getTime()
+          })
+          alert("저장되었습니다.");
+          
+      }     
     };
     //화면에 랜더링(표시)
   render() {
