@@ -5,6 +5,10 @@ import {sendMessage} from'./chat';
 
 class App extends Component {
 
+    keyReset(){
+        document.getElementById("question").value='';
+    }
+
     //화면에 랜더링(표시)
     render() {
         const {feed, sendMessage} = this.props;
@@ -14,7 +18,10 @@ class App extends Component {
                 <ul>
                     {feed.map(entry => <li> {entry.text} </li> )}
                 </ul>
-                <input type="text" onKeyDown={(e) =>e.key === 'Enter' ? sendMessage(e.target.value):null}/>
+                <input type="text" id="question"
+                       onKeyDown={(e) =>e.key === 'Enter' ? sendMessage(e.target.value):null}
+                       onKeyPress={this.keyReset}
+                />
             </div>
         );
     }
