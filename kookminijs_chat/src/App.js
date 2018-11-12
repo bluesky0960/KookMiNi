@@ -32,7 +32,10 @@ class App extends Component {
                 <div>
                     <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
                     <button >메모</button>
-                    <button onClick={()=>{sendMessage(this.state.input)}}>입력</button>
+                    <button onClick={()=>{
+                        sendMessage(this.state.input)
+                        this.keyReset();
+                    }}>입력</button>
                 </div>
             </div>
         );
