@@ -4,6 +4,17 @@ import './App.css';
 import {sendMessage} from'./chat';
 
 class App extends Component {
+    constructor(props){
+        super(props);// 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
+
+        this.state={
+            input:"",
+        };
+    }
+
+    _handleText=(e)=>{
+        this.setState({input: e.target.value});
+    };
 
     keyReset(){
         document.getElementById("question").value='';
@@ -18,10 +29,9 @@ class App extends Component {
                 <div style={{textAlign:'left'}}>
                     {feed.map(entry => <div> {entry.text} </div> )}
                 </div>
-                <input type="text" id="question"
-                       onKeyDown={(e) =>e.key === 'Enter' ? sendMessage(e.target.value):null}
-                       onKeyPress={this.keyReset}
-                />
+                <div>
+                    <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
+                </div>
             </div>
         );
     }
