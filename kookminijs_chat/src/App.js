@@ -15,9 +15,9 @@ class App extends Component {
         return (
             <div>
                 <h1>Kookmini</h1>
-                <ul>
-                    {feed.map(entry => <li> {entry.text} </li> )}
-                </ul>
+                <div style={{textAlign:'left'}}>
+                    {feed.map(entry => <div> {entry.text} </div> )}
+                </div>
                 <input type="text" id="question"
                        onKeyDown={(e) =>e.key === 'Enter' ? sendMessage(e.target.value):null}
                        onKeyPress={this.keyReset}
