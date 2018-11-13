@@ -30,7 +30,9 @@ class App extends Component {
               user: null
             });
         });
+        window.location.reload() //페이지 새로고침
     }
+    
     //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
     login = () =>{
         auth.signInWithPopup(provider).then((result) => {
@@ -67,8 +69,6 @@ class App extends Component {
             this.setState({
                 input:''
             })
-          
-
       }     
     };
 
