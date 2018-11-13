@@ -50,7 +50,15 @@ class App extends Component {
             } 
         });
     }
-        //메모 함수 구현
+    //메모 출력?
+    getmemolist = () => {
+        console.log(this.state.user.uid);
+        firebase.database().ref('memos/' + this.state.user.uid).on('value', function (e) {
+            var message = e.val();
+            console.log(message);
+        });
+    }
+    //메모 함수 구현
     note = (input) => {
 
         if (this.state.user === null) {
@@ -121,6 +129,15 @@ class App extends Component {
                             this.keyReset();
                         }
                     }}>메모</button>
+                    <button onClick={() => {
+                        if (this.state.input === "") {
+                            return 0;
+                        }
+                        else {
+                            this.getmemolist(this.state.input);
+                            this.keyReset();
+                        }
+                    }}>리스트</button>
                     <button onClick={()=>{
                         if(this.state.input === ""){
                             return 0;
