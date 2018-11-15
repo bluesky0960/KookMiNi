@@ -51,12 +51,28 @@ class App extends Component {
         });
     }
     //메모 출력?
-    getmemolist = () => {
-        console.log(this.state.user.uid);
-        firebase.database().ref('memos/' + this.state.user.uid).on('value', function (e) {
-            var message = e.val();
-            console.log(message);
-        });
+    getmemolist = (input) => {
+        var ref = firebase.database().ref('memos/' + this.state.user.uid);
+        if(this.state.input === ""){          
+            ref.on('child_added', function (e) {
+                var message = e.val().txt;
+                console.log(message);                     
+            });
+        }else{
+            //txt 검색부 구현은 아직 안됐어요
+            /* 
+            ref.orderByChild('txt')
+            
+            .startAt(input)
+            .endAt(input+"\uf8ff")
+            
+            //.equalTo("\uE000"+input+"\uf8ff")
+            .on('child_added', function (e) {
+                var txt = e.val().txt;
+                console.log(txt);
+            });       
+            */ 
+        } 
     }
     //메모 함수 구현
     note = (input) => {
@@ -130,13 +146,8 @@ class App extends Component {
                         }
                     }}>메모</button>
                     <button onClick={() => {
-                        if (this.state.input === "") {
-                            return 0;
-                        }
-                        else {
-                            this.getmemolist(this.state.input);
-                            this.keyReset();
-                        }
+                        this.getmemolist(this.state.input);
+                        this.keyReset();
                     }}>리스트</button>
                     <button onClick={()=>{
                         if(this.state.input === ""){
