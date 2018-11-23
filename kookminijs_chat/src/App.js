@@ -131,8 +131,8 @@ class App extends Component {
         return (
             <div>
                 <h1>Kookmini</h1>
-                <div style={{textAlign:'left'}}>
-                    {feed.map(entry => <div> {entry.text} </div> )}
+                <div>
+                    {feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}
                 </div>
                 <div>
                     <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
