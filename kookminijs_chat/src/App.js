@@ -129,41 +129,53 @@ class App extends Component {
     render() {
         const {feed, sendMessage} = this.props;
         return (
-            <div>
-                <h1>Kookmini</h1>
-                <div>
-                    {feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}
-                </div>
-                <div>
-                    <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
-                    <button onClick={() => {
-                        if (this.state.input === ""){
-                            return 0;
-                        }
-                        else {                                                              
-                            this.note(this.state.input);
+            <div className="Whole_container">
+                <header className="Header">
+                    <div className="In_header">
+                        <div className="In_in_header">
+                            <h1>Kookmini</h1>
+                        </div>
+                        <div id="user-container">
+                            {this.state.user ?
+                                <button className="sign_button" onClick={this.logout}>sign Out</button> :
+                                <button className="sign_button" onClick={this.login}>Sign in with Google</button>
+                            }
+                        </div>
+                    </div>
+                </header>
+                <main>
+                    <div className="in_main">
+                    <div>
+                        {feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}
+                    </div>
+                    <div>
+                        <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
+                        <button onClick={() => {
+                            if (this.state.input === ""){
+                                return 0;
+                            }
+                            else {
+                                this.note(this.state.input);
+                                this.keyReset();
+                            }
+                        }}>메모</button>
+                        <button onClick={() => {
+                            this.getmemolist(this.state.input);
                             this.keyReset();
-                        }
-                    }}>메모</button>
-                    <button onClick={() => {
-                        this.getmemolist(this.state.input);
-                        this.keyReset();
-                    }}>리스트</button>
-                    <button onClick={()=>{
-                        if(this.state.input === ""){
-                            return 0;
-                        }
-                        else {
-                            sendMessage(this.state.input);
-                            this.keyReset();
-                        }
-                        //console.log(this.state.input)
-                    }}>입력</button>
-                    {this.state.user ?
-                        <button onClick={this.logout}>sign Out</button> :
-                        <button onClick={this.login}>Sign in with Google</button>              
-                    }                    
-                </div>
+                        }}>리스트</button>
+                        <button onClick={()=>{
+                            if(this.state.input === ""){
+                                return 0;
+                            }
+                            else {
+                                sendMessage(this.state.input);
+                                this.keyReset();
+                            }
+                            //console.log(this.state.input)
+                        }}>입력</button>
+                    </div>
+                    </div>
+                </main>
             </div>
         );
     }
