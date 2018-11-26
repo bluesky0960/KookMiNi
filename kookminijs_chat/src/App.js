@@ -8,8 +8,8 @@ class App extends Component {
     constructor(props){
         super(props);// 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
 
-        this.login = this.login.bind(this); 
-        this.logout = this.logout.bind(this); 
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
 
         this.state={
             input:"",
@@ -20,6 +20,7 @@ class App extends Component {
     }
 
     _handleText=(e)=>{
+        console.log(typeof(e.target.value       ));
         this.setState({input: e.target.value});
     };
 
@@ -32,7 +33,7 @@ class App extends Component {
         });
         window.location.reload() //페이지 새로고침
     }
-    
+
     //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
     login = () =>{
         auth.signInWithPopup(provider).then((result) => {
@@ -47,33 +48,18 @@ class App extends Component {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user });
-            } 
+            }
         });
     }
     //메모 출력?
-    getmemolist = (input) => {
-        var ref = firebase.database().ref('memos/' + this.state.user.uid);
-        if(this.state.input === ""){          
+    /*getMemoList = () => {
+        var ref =   firebase.database().ref('memos/' + this.state.user.uid);
             ref.on('child_added', function (e) {
                 var message = e.val().txt;
-                console.log(message);                     
+                sendMessage(message,"ON_MESSAGE");
             });
-        }else{
-            //txt 검색부 구현은 아직 안됐어요
-            /* 
-            ref.orderByChild('txt')
-            
-            .startAt(input)
-            .endAt(input+"\uf8ff")
-            
-            //.equalTo("\uE000"+input+"\uf8ff")
-            .on('child_added', function (e) {
-                var txt = e.val().txt;
-                console.log(txt);
-            });       
-            */ 
-        } 
-    }
+    }*/
+
     //메모 함수 구현
     note = (input) => {
 
@@ -117,18 +103,18 @@ class App extends Component {
     };
 
     //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
-    search = (input) => {        
+    /*search = (input) => {
         var ref = firebase.database().ref('memos/' + this.state.user.uid);
         var message;
         ref.on('child_added', function (e) {
             message = e.val().txt
             if (message.match(input)) {
                 console.log(message);
+
+
             }
         })
-        //var myArray = message.match(/모프/);
-        //alert(message);
-    };  
+    };  */
 
     keyReset(){
         document.getElementById("question").value='';
@@ -158,7 +144,7 @@ class App extends Component {
                             <div className="message_card">
                                 <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
                                 <div id="message-form">
-                                    <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
+                                    <textarea type="text" id="question" onChange={this._handleText} placeholder="궁금한점?"/>
                                     <button onClick={() => {
                                         if(this.state.user === null){
                                             alert("로그인 먼저 해주세요");
@@ -180,13 +166,13 @@ class App extends Component {
                                             return 0;
                                         }
                                         else {
-                                            if (this.state.input === "") {
-                                                return 0;
-                                            }
-                                            else {
-                                                this.getmemolist();
+                                            var ref =   firebase.database().ref('memos/' + this.state.user.uid);
+                                            ref.on('child_added', function (e) {
+                                                var message = e.val().txt;
+                                                sendMessage(message,"MEMO_LIST",'bot');
+                                            });
+                                                //this.getMemoList();
                                                 this.keyReset();
-                                            }
                                         }
                                     }}>리스트</button>
 
@@ -197,6 +183,7 @@ class App extends Component {
                                         else {
                                             sendMessage(this.state.input);
                                             this.keyReset();
+                                            this.state.input='';
                                         }
                                     }}>입력</button>
 
@@ -210,7 +197,16 @@ class App extends Component {
                                                 return 0;
                                             }
                                             else {
-                                                this.search(this.state.input);
+                                                var ref = firebase.database().ref('memos/' + this.state.user.uid);
+                                                var search_message;
+                                                ref.on('child_added', function (e) {
+                                                    search_message = e.val().txt
+                                                    if (search_message.match(this.state.input)) {
+                                                        sendMessage(search_message,'MEMO_LIST','bot');
+
+
+                                                    }
+                                                })
                                                 this.keyReset();
                                             }
                                         }
