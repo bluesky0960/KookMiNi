@@ -155,9 +155,11 @@ class App extends Component {
                 </header>
                 <main>
                     <div className="in_main">
-                        <div>{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}
-                        </div>
-                    <div>
+                        <div className="in_in_main">
+                            <div className="message_card">
+
+                        <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
+                    <div id="message-form">
 
                         <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
                         <button onClick={() => {
@@ -170,8 +172,13 @@ class App extends Component {
                             }
                         }}>메모</button>
                         <button onClick={() => {
-                            this.getmemolist();
-                            this.keyReset();
+                            if (this.state.input === ""){
+                                return 0;
+                            }
+                            else {
+                                this.getmemolist();
+                                this.keyReset();
+                            }
                         }}>리스트</button>
                         <button onClick={()=>{
                             if(this.state.input === ""){
@@ -192,6 +199,8 @@ class App extends Component {
                                     this.keyReset();
                                 }
                             }}>검색</button>
+                    </div>
+                    </div>
                     </div>
                     </div>
                 </main>
