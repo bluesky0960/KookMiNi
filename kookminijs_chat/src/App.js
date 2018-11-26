@@ -160,21 +160,33 @@ class App extends Component {
                                 <div id="message-form">
                                     <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
                                     <button onClick={() => {
-                                        if (this.state.input === ""){
+                                        if(this.state.user === null){
+                                            alert("로그인 먼저 해주세요");
                                             return 0;
                                         }
                                         else {
-                                            this.note(this.state.input);
-                                            this.keyReset();
+                                            if (this.state.input === "") {
+                                                return 0;
+                                            }
+                                            else {
+                                                this.note(this.state.input);
+                                                this.keyReset();
+                                            }
                                         }
                                      }}>메모</button>
                                     <button onClick={() => {
-                                        if (this.state.input === ""){
+                                        if(this.state.user === null){
+                                            alert("로그인 먼저 해주세요");
                                             return 0;
                                         }
                                         else {
-                                            this.getmemolist();
-                                            this.keyReset();
+                                            if (this.state.input === "") {
+                                                return 0;
+                                            }
+                                            else {
+                                                this.getmemolist();
+                                                this.keyReset();
+                                            }
                                         }
                                     }}>리스트</button>
 
@@ -189,12 +201,18 @@ class App extends Component {
                                     }}>입력</button>
 
                                     <button onClick={() => {
-                                        if (this.state.input === "") {
+                                        if(this.state.user === null){
+                                            alert("로그인 먼저 해주세요");
                                             return 0;
                                         }
                                         else {
-                                            this.search(this.state.input);
-                                            this.keyReset();
+                                            if (this.state.input === "") {
+                                                return 0;
+                                            }
+                                            else {
+                                                this.search(this.state.input);
+                                                this.keyReset();
+                                            }
                                         }
                                     }}>검색</button>
                                 </div>
