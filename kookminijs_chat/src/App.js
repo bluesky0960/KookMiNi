@@ -117,8 +117,18 @@ class App extends Component {
     };
 
     //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
-    search = (input) => {
-        //https://firebase.google.com/docs/database/web/lists-of-data
+    search = (input) => {        
+        var ref = firebase.database().ref('memos/' + this.state.user.uid);
+        var message;
+        var pattern = new RegExp(input);
+        ref.on('child_added', function (e) {
+            message = e.val().txt
+            if (message.match(input)) {
+                console.log(message);
+            }
+        })
+        //var myArray = message.match(/모프/);
+        //alert(message);
     };  
 
     keyReset(){
@@ -145,10 +155,10 @@ class App extends Component {
                 </header>
                 <main>
                     <div className="in_main">
+                        <div>{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}
+                        </div>
                     <div>
-                        {feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}
-                    </div>
-                    <div>
+
                         <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
                         <button onClick={() => {
                             if (this.state.input === ""){
@@ -160,7 +170,7 @@ class App extends Component {
                             }
                         }}>메모</button>
                         <button onClick={() => {
-                            this.getmemolist(this.state.input);
+                            this.getmemolist();
                             this.keyReset();
                         }}>리스트</button>
                         <button onClick={()=>{
@@ -172,7 +182,16 @@ class App extends Component {
                                 this.keyReset();
                             }
                             //console.log(this.state.input)
-                        }}>입력</button>
+                            }}>입력</button>
+                            <button onClick={() => {
+                                if (this.state.input === "") {
+                                    return 0;
+                                }
+                                else {
+                                    this.search(this.state.input);
+                                    this.keyReset();
+                                }
+                            }}>검색</button>
                     </div>
                     </div>
                 </main>
