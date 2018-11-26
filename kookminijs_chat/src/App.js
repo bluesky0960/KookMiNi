@@ -120,7 +120,6 @@ class App extends Component {
     search = (input) => {        
         var ref = firebase.database().ref('memos/' + this.state.user.uid);
         var message;
-        var pattern = new RegExp(input);
         ref.on('child_added', function (e) {
             message = e.val().txt
             if (message.match(input)) {
@@ -157,51 +156,50 @@ class App extends Component {
                     <div className="in_main">
                         <div className="in_in_main">
                             <div className="message_card">
+                                <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
+                                <div id="message-form">
+                                    <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
+                                    <button onClick={() => {
+                                        if (this.state.input === ""){
+                                            return 0;
+                                        }
+                                        else {
+                                            this.note(this.state.input);
+                                            this.keyReset();
+                                        }
+                                     }}>메모</button>
+                                    <button onClick={() => {
+                                        if (this.state.input === ""){
+                                            return 0;
+                                        }
+                                        else {
+                                            this.getmemolist();
+                                            this.keyReset();
+                                        }
+                                    }}>리스트</button>
 
-                        <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
-                    <div id="message-form">
+                                    <button onClick={()=>{
+                                        if(this.state.input === ""){
+                                            return 0;
+                                        }
+                                        else {
+                                            sendMessage(this.state.input);
+                                            this.keyReset();
+                                        }
+                                    }}>입력</button>
 
-                        <textarea id="question" onChange={this._handleText} placeholder="궁금한점?"/>
-                        <button onClick={() => {
-                            if (this.state.input === ""){
-                                return 0;
-                            }
-                            else {
-                                this.note(this.state.input);
-                                this.keyReset();
-                            }
-                        }}>메모</button>
-                        <button onClick={() => {
-                            if (this.state.input === ""){
-                                return 0;
-                            }
-                            else {
-                                this.getmemolist();
-                                this.keyReset();
-                            }
-                        }}>리스트</button>
-                        <button onClick={()=>{
-                            if(this.state.input === ""){
-                                return 0;
-                            }
-                            else {
-                                sendMessage(this.state.input);
-                                this.keyReset();
-                            }
-                            //console.log(this.state.input)
-                            }}>입력</button>
-                            <button onClick={() => {
-                                if (this.state.input === "") {
-                                    return 0;
-                                }
-                                else {
-                                    this.search(this.state.input);
-                                    this.keyReset();
-                                }
-                            }}>검색</button>
-                    </div>
-                    </div>
-                    </div>
+                                    <button onClick={() => {
+                                        if (this.state.input === "") {
+                                            return 0;
+                                        }
+                                        else {
+                                            this.search(this.state.input);
+                                            this.keyReset();
+                                        }
+                                    }}>검색</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </main>
             </div>
