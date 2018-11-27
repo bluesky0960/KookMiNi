@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     _handleText=(e)=>{
-        console.log(typeof(e.target.value       ));
+        console.log(typeof(e.target.value));
         this.setState({input: e.target.value});
     };
 
@@ -56,13 +56,14 @@ class App extends Component {
         });
     }
     //메모 출력?
-    /*getMemoList = () => {
+    getMemoList = () => {
         var ref =   firebase.database().ref('memos/' + this.state.user.uid);
             ref.on('child_added', function (e) {
                 var message = e.val().txt;
-                sendMessage(message,"ON_MESSAGE");
+                sendMessage(message,"MEMO_LIST",'bot');
             });
-    }*/
+        const {sendMessage} = this.props;    
+    }
 
     //메모 함수 구현
     note = (input) => {
@@ -107,18 +108,19 @@ class App extends Component {
     };
 
     //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
-    /*
+    
     search = (input) => {
         var ref = firebase.database().ref('memos/' + this.state.user.uid);
-        var message;
         ref.on('child_added', function (e) {
-            message = e.val().txt
+            var message = e.val().txt
             if (message.match(input)) {
-                console.log(message);
-             }
+                //console.log(message);              
+                sendMessage(message,'MEMO_LIST','bot');
+            }
         })
+        const {sendMessage} = this.props;
     };
-    */
+    
 
     keyReset(){
         document.getElementById("question").value='';
@@ -171,13 +173,8 @@ class App extends Component {
                                             return 0;
                                         }
                                         else {
-                                            var ref =   firebase.database().ref('memos/' + this.state.user.uid);
-                                            ref.on('child_added', function (e) {
-                                                var message = e.val().txt;
-                                                sendMessage(message,"MEMO_LIST",'bot');
-                                            });
-                                                //this.getMemoList();
-                                                this.keyReset();
+                                            this.getMemoList();
+                                            this.keyReset();
                                         }
                                     }}>리스트</button>
 
@@ -202,20 +199,7 @@ class App extends Component {
                                                 return 0;
                                             }
                                             else {
-                                                
-                                                var ref = firebase.database().ref('memos/' + this.state.user.uid);
-                                                var search_message;
-                                                var input = this.state.input;
-                                                ref.on('child_added', function (e) {
-                                                    search_message = e.val().txt
-                                                    if (search_message.match(input)) {
-                                                        sendMessage(search_message,'MEMO_LIST','bot');
-
-
-                                                    }
-                                                })
-                                                
-                                               
+                                                this.search(this.state.input)                                                                      
                                                 this.keyReset();
                                             }
                                         }
