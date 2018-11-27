@@ -3,6 +3,8 @@ import firebase, {auth, provider}from './firebase';
 import logo from './logo.svg';
 import './App.css';
 
+
+
 class App extends Component {
   //생성자 props는 부모 클래스에서 받아오는변하지 않는 값. 받아온 값은 수정할 수 없음
   //동적인 데이터는 state로 관리
