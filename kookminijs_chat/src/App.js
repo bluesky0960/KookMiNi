@@ -142,6 +142,7 @@ class App extends Component {
                     <div className="in_main">
                         <div className="in_in_main">
                             <div className="message_card">
+                                <textarea type="text" id="question" onChange={this._handleText}/>
                                 <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
                                 <div id="message-form">
                                     <textarea type="text" id="question" onChange={this._handleText} placeholder="궁금한점?"/>
