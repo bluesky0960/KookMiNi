@@ -43,6 +43,7 @@ var url = 'https://www.kookmin.ac.kr/site/ecampus/info/library.htm';
       }
       console.log(data);
       //fs.writeFileSync('text.json', data, 'utf8');
+      return data;
 
   });
  }
