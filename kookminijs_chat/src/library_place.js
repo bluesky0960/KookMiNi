@@ -1,22 +1,16 @@
 import * as firebase from 'firebase';
 import Request from 'request';
 
-const myInit = {
-    method: 'GET',
-    mode: 'no-cors',
-    cache: 'default',
-    credentials: 'include'};
 
 const cheerio = require('cheerio');
 const url = 'https://www.kookmin.ac.kr/site/ecampus/info/library.htm';
-const myrequest = new Request(url, myInit);
 
 export const library = () => {
-    myrequest(url, function (error, response, html) {
+    var output ='';
+    Request(url, function (error, response, html) {
         if (error) {
             throw error
-        }
-        ;
+        };
 
         var $ = cheerio.load(html);
 
@@ -35,20 +29,10 @@ export const library = () => {
                         library_availablesit = $(this).next().next().text();
                         library_unavailabletime = $(this).next().next().next().text();
 
-                        var memoRef = firebase.database().ref('memos/' + this.state.user.uid);
-
-                        memoRef.push({
-                            libarary_name: library,
-                            libarary_totalsit: library_totalsit,
-                            library_availablesit: library_availablesit,
-                            library_unavailabletime: library_unavailabletime
-                        });
-                        alert("저장되었습니다.");
-
-                        //console.log(library);
-                        //console.log('총 좌석 -> ' + library_totalsit);
-                        //console.log('잔여좌석 -> ' + library_availablesit);
-                        //console.log('사용불가기간 -> ' + library_unavailabletime + '\n');
+                        output +=  library ;
+                        output += library_totalsit;
+                        output += library_availablesit;
+                        output += library_unavailabletime;
                     }
                 });
             });
@@ -56,4 +40,8 @@ export const library = () => {
             console.error(error);
         }
     });
+    return output;
 }
+
+
+//export default {output}

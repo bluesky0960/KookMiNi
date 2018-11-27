@@ -3,7 +3,10 @@ import firebase, {auth, provider}from './firebase';
 import {connect} from 'react-redux'
 import './App.css';
 import {sendMessage} from'./chat';
-import {library} from './library_place';
+import {library} from './library_place';    
+
+
+var output = library();
 
 class App extends Component {
     constructor(props){
