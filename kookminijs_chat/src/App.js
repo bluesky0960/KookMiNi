@@ -146,79 +146,79 @@ class App extends Component {
                     <div className="in_main">
                         <div className="in_in_main">
                             <div className="message_card">
-                                <textarea type="text" id="question" onChange={this._handleText}/>
-                                <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
-                                <div id="message-form">
-                                    <textarea type="text" id="question" onChange={this._handleText} placeholder="궁금한점?"/>
-                                    <button onClick={() => {
-                                        if(this.state.user === null){
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            if (this.state.input === "") {
+                                <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?"/>
+                                    <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
+                                    <div id="message-form">
+                                        <textarea type="text" id="question" onChange={this._handleText} placeholder="궁금한점?"/>
+                                        <button onClick={() => {
+                                            if(this.state.user === null){
+                                                alert("로그인 먼저 해주세요");
                                                 return 0;
                                             }
                                             else {
-                                                this.note(this.state.input);
-                                                this.keyReset();
+                                                if (this.state.input === "") {
+                                                    return 0;
+                                                }
+                                                else {
+                                                    this.note(this.state.input);
+                                                    this.keyReset();
+                                                }
                                             }
-                                        }
-                                     }}>메모</button>
-                                    <button onClick={() => {
-                                        if(this.state.user === null){
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            var ref =   firebase.database().ref('memos/' + this.state.user.uid);
-                                            ref.on('child_added', function (e) {
-                                                var message = e.val().txt;
-                                                sendMessage(message,"MEMO_LIST",'bot');
-                                            });
-                                                //this.getMemoList();
-                                                this.keyReset();
-                                        }
-                                    }}>리스트</button>
-
-                                    <button onClick={()=>{
-                                        if(this.state.input === ""){
-                                            return 0;
-                                        }
-                                        else {
-                                            sendMessage(this.state.input);
-                                            this.keyReset();
-                                            this.state.input='';
-                                        }
-                                    }}>입력</button>
-
-                                    <button onClick={() => {
-                                        if(this.state.user === null){
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            if (this.state.input === "") {
+                                        }}>메모</button>
+                                            <button onClick={() => {
+                                            if(this.state.user === null){
+                                                alert("로그인 먼저 해주세요");
                                                 return 0;
                                             }
                                             else {
-                                                
-                                                var ref = firebase.database().ref('memos/' + this.state.user.uid);
-                                                var search_message;
-                                                var input = this.state.input;
+                                                var ref =   firebase.database().ref('memos/' + this.state.user.uid);
                                                 ref.on('child_added', function (e) {
-                                                    search_message = e.val().txt
-                                                    if (search_message.match(input)) {
-                                                        sendMessage(search_message,'MEMO_LIST','bot');
+                                                    var message = e.val().txt;
+                                                    sendMessage(message,"MEMO_LIST",'bot');
+                                                });
+                                                    //this.getMemoList();
+                                                    this.keyReset();
+                                            }
+                                        }}>리스트</button>
+
+                                        <button onClick={()=>{
+                                            if(this.state.input === ""){
+                                                return 0;
+                                            }
+                                            else {
+                                                sendMessage(this.state.input);
+                                                this.keyReset();
+                                                this.state.input='';
+                                            }
+                                        }}>입력</button>
+
+                                        <button onClick={() => {
+                                            if(this.state.user === null){
+                                                alert("로그인 먼저 해주세요");
+                                                return 0;
+                                            }
+                                            else {
+                                                if (this.state.input === "") {
+                                                    return 0;
+                                                }
+                                                else {
+                                                
+                                                    var ref = firebase.database().ref('memos/' + this.state.user.uid);
+                                                    var search_message;
+                                                    var input = this.state.input;
+                                                    ref.on('child_added', function (e) {
+                                                        search_message = e.val().txt
+                                                        if (search_message.match(input)) {
+                                                            sendMessage(search_message,'MEMO_LIST','bot');
 
 
-                                                    }
-                                                })
+                                                        }
+                                                    })
                                                 
                                                
-                                                this.keyReset();
+                                                    this.keyReset();
+                                                }
                                             }
-                                        }
                                     }}>검색</button>
                                 </div>
                             </div>
