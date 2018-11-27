@@ -8,6 +8,8 @@ class App extends Component {
     constructor(props){
         super(props);// 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
 
+        this.checkAuthState();
+
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
 
@@ -15,8 +17,7 @@ class App extends Component {
             input:"",
             user: null
         };
-
-        this.checkAuthState();
+        
     }
 
     _handleText=(e)=>{
@@ -35,13 +36,16 @@ class App extends Component {
     }
 
     //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
-    login = () =>{
-        auth.signInWithPopup(provider).then((result) => {
+    login = () =>{    
+       auth.signInWithRedirect(provider);    
+    };
+    getRedirect = () =>{
+        auth.getRedirectResult().then(function(result) {
             const user = result.user;
             this.setState({
-              user
+                user
             });
-        });
+        }); 
     }
     //login 상태 확인
     checkAuthState = () =>{
