@@ -149,12 +149,24 @@ h1{
     margin-bottom: 10px;
     padding-top: 15px;
     height: 400px;
+    width: 800px;
     display: flex;
     flex-direction: column;
     font-size: 1rem;
     line-height: 18px;
     color: #757575 !important;
     font-weight: 400;
+}
+
+#search_from {
+    display: flex;
+    flex-direction: row;
+    width: 920px;
+    float: left;
+    margin-top: 0.3em;
+    font-size: 1rem;
+    line-height: 10px;
+    height: 25px;
 }
 
 #message-form {
@@ -169,24 +181,22 @@ h1{
 }
 
 #search_box {
-    width: 800px;
-    height: 20px;
-    font-size: 15px;
+    width: 825px;
     border-color: #F2F2F2;
 }
 
 #message_box{
     width: 800px;
-
 }
 
 #button_2{
-    width: auto;
+    width: 50px;
     height: auto;
+    font-size: 15px;
 }
 
 #button_3{
-    width: auto;
+    width: 75px;
     height: auto;
     font-size : 15px;
 }

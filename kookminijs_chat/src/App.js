@@ -148,21 +148,39 @@ class App extends Component {
                     <div className="in_main">
                         <div className="in_in_main">
                             <div className="message_card">
-                                <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?"/>
-                                    <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
-                                    <div id="message-form">
-                                        <textarea type="text" id="message_box" onChange={this._handleText} placeholder="궁금한점?"/>
-                                        <button onClick={() => {
-                                            if(this.state.user === null){
-                                                alert("로그인 먼저 해주세요");
+                                <div id="search_from">
+                                    <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?" />
+                                    <button id="button_2" onClick={() => {
+                                        if (this.state.user === null) {
+                                            alert("로그인 먼저 해주세요");
+                                            return 0;
+                                        }
+                                        else {
+                                            if (this.state.input === "") {
                                                 return 0;
                                             }
                                             else {
-                                                this.getMemoList();                                            
+                                                this.search(this.state.input)
                                                 this.keyReset();
                                             }
-                                        }}>리스트</button>
-                                    <button onClick={()=>{
+                                        }
+                                    }}>검색</button>
+                                    <button id="button_3" onClick={() => {
+                                        if (this.state.user === null) {
+                                            alert("로그인 먼저 해주세요");
+                                            return 0;
+                                        }
+                                        else {
+                                            this.getMemoList();
+                                            this.keyReset();
+                                        }
+                                    }}>리스트</button>
+                                    </div>
+                                    <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
+                                    <div id="message-form">
+                                        <textarea type="text" id="message_box" onChange={this._handleText} placeholder="궁금한점?"/>
+                                        
+                                    <button id="button_2" onClick={()=>{
                                         if(this.state.input === ""){
                                             return 0;
                                         }
@@ -172,7 +190,7 @@ class App extends Component {
                                             this.state.input='';
                                         }
                                     }}>입력</button>
-                                    <button onClick={() => {
+                                    <button id="button_2" onClick={() => {
                                         if (this.state.user === null) {
                                             alert("로그인 먼저 해주세요");
                                             return 0;
@@ -187,22 +205,7 @@ class App extends Component {
                                             }
                                         }
                                     }}>메모</button>
-
-                                        <button onClick={() => {
-                                            if(this.state.user === null){
-                                                alert("로그인 먼저 해주세요");
-                                                return 0;
-                                            }
-                                            else {
-                                                if (this.state.input === "") {
-                                                    return 0;
-                                                }
-                                                else {
-                                                    this.search(this.state.input)                                                                      
-                                                    this.keyReset();
-                                                }
-                                            }     
-                                        }}>검색</button>
+                                    
                                 </div>
                             </div>
                         </div>
