@@ -64,16 +64,53 @@ class App extends Component {
     };
     //메모 함수 구현
     note = (input) => {
-        var memoRef = firebase.database().ref('memos/' + auth.uid);
-        var txt = input;
-        if (txt == '') {
+
+        if (this.state.user === null) {
+            alert("Google login 해주세요.");
+        } else {
+            var memoRef = firebase.database().ref('memos/' + this.state.user.uid);
+            var txt = input;
+            if (txt === '') {
+                return;
+            }
+            memoRef.push({
+                txt: txt,
+                creatData: new Date().getTime()
+            })
+            alert("저장되었습니다.");
+            this.setState({
+                input:''
+            })
+          
+
+      }     
+    };
+
+    //수정함수
+    updata = () => {
+        /**memoRef.update({
+            txt: txt,
+            createData: new Date().getTime(),
+            updateData: new Date().getTime()
+        });*/
+    };
+
+
+    //삭제 함수
+    remove = () => {
+    //x버튼을 누루면 
+        if (!confirm('삭제하시겠습니까?')) {
             return;
         }
-        memoRef.push({
-            txt: txt,
-            creatData : new Date().getTime()
-        })
     };
+
+    //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
+    search = (input) => {
+        //https://firebase.google.com/docs/database/web/lists-of-data
+    };
+
+
+
     //화면에 랜더링(표시)
   render() {
     return (
