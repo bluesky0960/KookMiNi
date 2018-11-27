@@ -167,19 +167,39 @@ class App extends Component {
                                                 }
                                             }
                                         }}>메모</button>
-                                            <button onClick={() => {
+                                        <button onClick={() => {
                                             if(this.state.user === null){
                                                 alert("로그인 먼저 해주세요");
                                                 return 0;
                                             }
                                             else {
-                                                var ref =   firebase.database().ref('memos/' + this.state.user.uid);
-                                                ref.on('child_added', function (e) {
-                                                    var message = e.val().txt;
-                                                    sendMessage(message,"MEMO_LIST",'bot');
-                                                });
-                                                    //this.getMemoList();
+                                                this.getMemoList();                                            
+                                                this.keyReset();
+                                            }
+                                        }}>리스트</button>
+                                        <button onClick={() => {
+                                            if(this.state.user === null){
+                                                alert("로그인 먼저 해주세요");
+                                                return 0;
+                                            }
+                                            else {
+                                                if (this.state.input === "") {
+                                                    return 0;
+                                                }
+                                                else {
+                                                    this.note(this.state.input);
                                                     this.keyReset();
+                                                }
+                                            }
+                                        }}>메모</button>
+                                        <button onClick={() => {
+                                            if(this.state.user === null){
+                                                alert("로그인 먼저 해주세요");
+                                                return 0;
+                                            }
+                                            else {
+                                                this.getMemoList();
+                                                this.keyReset();
                                             }
                                         }}>리스트</button>
 
@@ -187,44 +207,6 @@ class App extends Component {
                                             if(this.state.input === ""){
                                                 return 0;
                                             }
-<<<<<<< HEAD
-                                        }
-                                     }}>메모</button>
-                                    <button onClick={() => {
-                                        if(this.state.user === null){
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            this.getMemoList();
-                                            this.keyReset();
-                                        }
-                                    }}>리스트</button>
-
-                                    <button onClick={()=>{
-                                        if(this.state.input === ""){
-                                            return 0;
-                                        }
-                                        else {
-                                            sendMessage(this.state.input);
-                                            this.keyReset();
-                                            this.state.input='';
-                                        }
-                                    }}>입력</button>
-
-                                    <button onClick={() => {
-                                        if(this.state.user === null){
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            if (this.state.input === "") {
-                                                return 0;
-                                            }
-                                            else {
-                                                this.search(this.state.input)                                                                      
-                                                this.keyReset();
-=======
                                             else {
                                                 sendMessage(this.state.input);
                                                 this.keyReset();
@@ -242,25 +224,11 @@ class App extends Component {
                                                     return 0;
                                                 }
                                                 else {
-                                                
-                                                    var ref = firebase.database().ref('memos/' + this.state.user.uid);
-                                                    var search_message;
-                                                    var input = this.state.input;
-                                                    ref.on('child_added', function (e) {
-                                                        search_message = e.val().txt
-                                                        if (search_message.match(input)) {
-                                                            sendMessage(search_message,'MEMO_LIST','bot');
-
-
-                                                        }
-                                                    })
-                                                
-                                               
+                                                    this.search(this.state.input)                                                                      
                                                     this.keyReset();
                                                 }
->>>>>>> 797a8a2cec7a6cb8fd9f7c831cb1f5f5e4b3580f
-                                            }
-                                    }}>검색</button>
+                                            }     
+                                        }}>검색</button>
                                 </div>
                             </div>
                         </div>
@@ -268,8 +236,8 @@ class App extends Component {
                 </main>
             </div>
         );
-    }
-}
+    }    
+}   
 const mapStateToProps = state => ({
     feed: state
 });
