@@ -3,7 +3,7 @@ import firebase, {auth, provider}from './firebase';
 import {connect} from 'react-redux'
 import './App.css';
 import {sendMessage} from'./chat';
-import {library} from './library_place';
+
 
 class App extends Component {
     constructor(props){
@@ -65,7 +65,6 @@ class App extends Component {
         else {
             sendMessage(input);
             this.keyReset();
-            input='';          
         }
     }
 
