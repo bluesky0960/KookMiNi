@@ -123,7 +123,7 @@ class App extends Component {
     
 
     keyReset(){
-        document.getElementById("question").value='';
+        document.getElementById("message_box").value='';
     }
 
     //화면에 랜더링(표시)
@@ -151,22 +151,7 @@ class App extends Component {
                                 <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?"/>
                                     <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
                                     <div id="message-form">
-                                        <textarea type="text" id="question" onChange={this._handleText} placeholder="궁금한점?"/>
-                                        <button onClick={() => {
-                                            if(this.state.user === null){
-                                                alert("로그인 먼저 해주세요");
-                                                return 0;
-                                            }
-                                            else {
-                                                if (this.state.input === "") {
-                                                    return 0;
-                                                }
-                                                else {
-                                                    this.note(this.state.input);
-                                                    this.keyReset();
-                                                }
-                                            }
-                                        }}>메모</button>
+                                        <textarea type="text" id="message_box" onChange={this._handleText} placeholder="궁금한점?"/>
                                         <button onClick={() => {
                                             if(this.state.user === null){
                                                 alert("로그인 먼저 해주세요");
@@ -177,42 +162,31 @@ class App extends Component {
                                                 this.keyReset();
                                             }
                                         }}>리스트</button>
-                                        <button onClick={() => {
-                                            if(this.state.user === null){
-                                                alert("로그인 먼저 해주세요");
+                                    <button onClick={()=>{
+                                        if(this.state.input === ""){
+                                            return 0;
+                                        }
+                                        else {
+                                            sendMessage(this.state.input);
+                                            this.keyReset();
+                                            this.state.input='';
+                                        }
+                                    }}>입력</button>
+                                    <button onClick={() => {
+                                        if (this.state.user === null) {
+                                            alert("로그인 먼저 해주세요");
+                                            return 0;
+                                        }
+                                        else {
+                                            if (this.state.input === "") {
                                                 return 0;
                                             }
                                             else {
-                                                if (this.state.input === "") {
-                                                    return 0;
-                                                }
-                                                else {
-                                                    this.note(this.state.input);
-                                                    this.keyReset();
-                                                }
-                                            }
-                                        }}>메모</button>
-                                        <button onClick={() => {
-                                            if(this.state.user === null){
-                                                alert("로그인 먼저 해주세요");
-                                                return 0;
-                                            }
-                                            else {
-                                                this.getMemoList();
+                                                this.note(this.state.input);
                                                 this.keyReset();
                                             }
-                                        }}>리스트</button>
-
-                                        <button onClick={()=>{
-                                            if(this.state.input === ""){
-                                                return 0;
-                                            }
-                                            else {
-                                                sendMessage(this.state.input);
-                                                this.keyReset();
-                                                this.state.input='';
-                                            }
-                                        }}>입력</button>
+                                        }
+                                    }}>메모</button>
 
                                         <button onClick={() => {
                                             if(this.state.user === null){
