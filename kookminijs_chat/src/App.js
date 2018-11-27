@@ -17,14 +17,26 @@ class App extends Component {
         this.state={
             input:"",
             user: null
-        };
-        
+        };     
     }
-
+    
     _handleText=(e)=>{
         console.log(typeof(e.target.value));
         this.setState({input: e.target.value});
     };
+
+    //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
+    login = () =>{    
+        auth.signInWithRedirect(provider);    
+    };
+    getRedirect = () =>{
+        auth.getRedirectResult().then(function(result) {
+            const user = result.user;
+            this.setState({
+              user
+            });
+        }); 
+    }
 
     //logout 버튼 실행시 user값 null
     logout = () =>{
@@ -36,18 +48,6 @@ class App extends Component {
         window.location.reload() //페이지 새로고침
     }
 
-    //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
-    login = () =>{    
-       auth.signInWithRedirect(provider);    
-    };
-    getRedirect = () =>{
-        auth.getRedirectResult().then(function(result) {
-            const user = result.user;
-            this.setState({
-                user
-            });
-        }); 
-    }
     //login 상태 확인
     checkAuthState = () =>{
         auth.onAuthStateChanged((user) => {
@@ -56,14 +56,17 @@ class App extends Component {
             }
         });
     }
-    //메모 출력?
-    getMemoList = () => {
-        var ref =   firebase.database().ref('memos/' + this.state.user.uid);
-            ref.on('child_added', function (e) {
-                var message = e.val().txt;
-                sendMessage(message,"MEMO_LIST",'bot');
-            });
-        const {sendMessage} = this.props;    
+    //입력 눌렀을 때 실행
+    inputText = (input) => {
+        const {sendMessage} = this.props;
+        if(input === ""){
+            return 0;
+        }
+        else {
+            sendMessage(input);
+            this.keyReset();
+            input='';          
+        }
     }
 
     //메모 함수 구현
@@ -85,7 +88,34 @@ class App extends Component {
             this.setState({
                 input:''
             })
-      }     
+            this.keyReset();
+        }     
+    };
+
+    //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수 
+    search = (input) => {
+        const {sendMessage} = this.props;
+        if(this.state.user === null){
+            alert("로그인 먼저 해주세요");
+            return 0;
+        }
+        else {
+            var ref = firebase.database().ref('memos/' + this.state.user.uid);
+            ref.on('child_added', function (e) {
+                var message = e.val().txt;
+                if (input === "") {
+                    sendMessage(message,"MEMO_LIST",'bot'); 
+                }
+                else {
+                    if (message.match(input)) {
+                           //console.log(message);              
+                          sendMessage(message,'MEMO_LIST','bot');
+                    }
+                }                    
+            }); 
+            this.keyReset();   
+            
+        }       
     };
 
     //수정함수
@@ -108,28 +138,14 @@ class App extends Component {
     */    
     };
 
-    //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
-    
-    search = (input) => {
-        var ref = firebase.database().ref('memos/' + this.state.user.uid);
-        ref.on('child_added', function (e) {
-            var message = e.val().txt
-            if (message.match(input)) {
-                //console.log(message);              
-                sendMessage(message,'MEMO_LIST','bot');
-            }
-        })
-        const {sendMessage} = this.props;
-    };
-    
-
+    //입력창 초기화
     keyReset(){
         document.getElementById("message_box").value='';
     }
 
     //화면에 랜더링(표시)
     render() {
-        const {feed, sendMessage} = this.props;
+        const {feed} = this.props;
         return (
             <div className="Whole_container">
                 <header className="Header">
@@ -152,20 +168,7 @@ class App extends Component {
                                 <div id="search_from">
                                     <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?" />
                                     <button id="button_2" onClick={() => {
-                                        if (this.state.user === null) {
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            if (this.state.input === "") {
-                                                return 0;
-                                            }
-                                            else {
-                                                this.search(this.state.input)
-                                                this.keyReset();
-                                                library();
-                                            }
-                                        }
+                                        this.search(this.state.input)
                                     }}>검색</button>
                                     </div>
                                     <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
@@ -173,29 +176,10 @@ class App extends Component {
                                         <textarea type="text" id="message_box" onChange={this._handleText} placeholder="궁금한점?"/>
                                         
                                     <button id="button_2" onClick={()=>{
-                                        if(this.state.input === ""){
-                                            return 0;
-                                        }
-                                        else {
-                                            sendMessage(this.state.input);
-                                            this.keyReset();
-                                            //this.input.setState('');
-                                        }
+                                        this.inputText(this.state.input)
                                     }}>입력</button>
                                     <button id="button_2" onClick={() => {
-                                        if (this.state.user === null) {
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            if (this.state.input === "") {
-                                                return 0;
-                                            }
-                                            else {
-                                                this.note(this.state.input);
-                                                this.keyReset();
-                                            }
-                                        }
+                                        this.note(this.state.input);
                                     }}>메모</button>
                                     
                                 </div>
