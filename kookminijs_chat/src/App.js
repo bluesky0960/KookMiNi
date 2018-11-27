@@ -3,10 +3,13 @@ import firebase, {auth, provider}from './firebase';
 import {connect} from 'react-redux'
 import './App.css';
 import {sendMessage} from'./chat';
-import {library} from './library_place';    
+
+var request = require('request');
+var lib_data = require('./library_place.js');
+var data1 = lib_data.lib();
+console.log(data1);
 
 
-var output = library();
 
 class App extends Component {
     constructor(props){
@@ -20,17 +23,18 @@ class App extends Component {
         this.state={
             input:"",
             user: null
-        };     
+        };
+
     }
-    
+
     _handleText=(e)=>{
         console.log(typeof(e.target.value));
         this.setState({input: e.target.value});
     };
 
     //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
-    login = () =>{    
-        auth.signInWithRedirect(provider);    
+    login = () =>{
+        auth.signInWithRedirect(provider);
     };
     getRedirect = () =>{
         auth.getRedirectResult().then(function(result) {
@@ -38,7 +42,7 @@ class App extends Component {
             this.setState({
               user
             });
-        }); 
+        });
     }
 
     //logout 버튼 실행시 user값 null
@@ -68,7 +72,7 @@ class App extends Component {
         else {
             sendMessage(input);
             this.keyReset();
-            input='';          
+            input='';
         }
     }
 
@@ -92,10 +96,10 @@ class App extends Component {
                 input:''
             })
             this.keyReset();
-        }     
+        }
     };
 
-    //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수 
+    //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
     search = (input) => {
         const {sendMessage} = this.props;
         if(this.state.user === null){
@@ -107,18 +111,18 @@ class App extends Component {
             ref.on('child_added', function (e) {
                 var message = e.val().txt;
                 if (input === "") {
-                    sendMessage(message,"MEMO_LIST",'bot'); 
+                    sendMessage(message,"MEMO_LIST",'bot');
                 }
                 else {
                     if (message.match(input)) {
-                           //console.log(message);              
+                           //console.log(message);
                           sendMessage(message,'MEMO_LIST','bot');
                     }
-                }                    
-            }); 
-            this.keyReset();   
-            
-        }       
+                }
+            });
+            this.keyReset();
+
+        }
     };
 
     //수정함수
@@ -133,12 +137,12 @@ class App extends Component {
 
     //삭제 함수
     remove = () => {
-    //x버튼을 누루면 
+    //x버튼을 누루면
     /*
         if (!confirm('삭제하시겠습니까?')) {
             return;
         }
-    */    
+    */
     };
 
     //입력창 초기화
@@ -177,14 +181,14 @@ class App extends Component {
                                     <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
                                     <div id="message-form">
                                         <textarea type="text" id="message_box" onChange={this._handleText} placeholder="궁금한점?"/>
-                                        
+
                                     <button id="button_2" onClick={()=>{
                                         this.inputText(this.state.input)
                                     }}>입력</button>
                                     <button id="button_2" onClick={() => {
                                         this.note(this.state.input);
                                     }}>메모</button>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -192,8 +196,8 @@ class App extends Component {
                 </main>
             </div>
         );
-    }    
-}   
+    }
+}
 const mapStateToProps = state => ({
     feed: state
 });

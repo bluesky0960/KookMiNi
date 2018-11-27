@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, Text, TextInput, View} from 'react-native';
+import {firebase} from 'firebase';
 
 
 export default class App extends React.Component {
