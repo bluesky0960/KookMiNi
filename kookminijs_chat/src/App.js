@@ -103,18 +103,18 @@ class App extends Component {
     };
 
     //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
-    /*search = (input) => {
+    /*
+    search = (input) => {
         var ref = firebase.database().ref('memos/' + this.state.user.uid);
         var message;
         ref.on('child_added', function (e) {
             message = e.val().txt
             if (message.match(input)) {
                 console.log(message);
-
-
-            }
+             }
         })
-    };  */
+    };
+    */
 
     keyReset(){
         document.getElementById("question").value='';
@@ -197,16 +197,20 @@ class App extends Component {
                                                 return 0;
                                             }
                                             else {
+                                                
                                                 var ref = firebase.database().ref('memos/' + this.state.user.uid);
                                                 var search_message;
+                                                var input = this.state.input;
                                                 ref.on('child_added', function (e) {
                                                     search_message = e.val().txt
-                                                    if (search_message.match(this.state.input)) {
+                                                    if (search_message.match(input)) {
                                                         sendMessage(search_message,'MEMO_LIST','bot');
 
 
                                                     }
                                                 })
+                                                
+                                               
                                                 this.keyReset();
                                             }
                                         }
