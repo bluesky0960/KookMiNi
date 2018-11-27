@@ -149,7 +149,7 @@ h1{
     margin-bottom: 10px;
     padding-top: 15px;
     height: 400px;
-    width: 800px;
+    width: 920px;
     display: flex;
     flex-direction: column;
     font-size: 1rem;
@@ -161,7 +161,7 @@ h1{
 #search_from {
     display: flex;
     flex-direction: row;
-    width: 920px;
+    width: 990px;
     float: left;
     margin-top: 0.3em;
     font-size: 1rem;
@@ -172,7 +172,7 @@ h1{
 #message-form {
     display: flex;
     flex-direction: row;
-    width: 900px;
+    width: 990px;
     float: left;
     margin-top: 0.3em;
     font-size: 1rem;
@@ -181,12 +181,12 @@ h1{
 }
 
 #search_box {
-    width: 825px;
+    width: 925px;
     border-color: #F2F2F2;
 }
 
 #message_box{
-    width: 800px;
+    width: 875px;
 }
 
 #button_2{

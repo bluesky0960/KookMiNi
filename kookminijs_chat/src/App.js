@@ -165,16 +165,6 @@ class App extends Component {
                                             }
                                         }
                                     }}>검색</button>
-                                    <button id="button_3" onClick={() => {
-                                        if (this.state.user === null) {
-                                            alert("로그인 먼저 해주세요");
-                                            return 0;
-                                        }
-                                        else {
-                                            this.getMemoList();
-                                            this.keyReset();
-                                        }
-                                    }}>리스트</button>
                                     </div>
                                     <div id="message">{feed.map(entry => <div sender={entry.sender}> {entry.text} </div>)}</div>
                                     <div id="message-form">
