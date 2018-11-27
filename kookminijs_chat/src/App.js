@@ -3,6 +3,7 @@ import firebase, {auth, provider}from './firebase';
 import {connect} from 'react-redux'
 import './App.css';
 import {sendMessage} from'./chat';
+import {library} from './library_place';
 
 class App extends Component {
     constructor(props){
@@ -160,6 +161,7 @@ class App extends Component {
                                             else {
                                                 this.getMemoList();                                            
                                                 this.keyReset();
+                                                library();
                                             }
                                         }}>리스트</button>
                                     <button onClick={()=>{
@@ -169,7 +171,7 @@ class App extends Component {
                                         else {
                                             sendMessage(this.state.input);
                                             this.keyReset();
-                                            this.state.input='';
+                                            //this.input.setState('');
                                         }
                                     }}>입력</button>
                                     <button onClick={() => {
