@@ -109,7 +109,8 @@ class App extends Component {
                 else {
                     if (message.match(input)) {
                            //console.log(message);              
-                          sendMessage(message,'MEMO_LIST','bot');
+                          var mes = sendMessage(message,'MEMO_LIST','bot');
+                          
                     }
                 }                    
             }); 
