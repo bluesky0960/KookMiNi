@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import './App.css';
 import {sendMessage} from'./chat';
 
+
 class App extends Component {
     constructor(props){
         super(props);// 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
@@ -183,6 +184,7 @@ class App extends Component {
                                         else {
                                             sendMessage(this.state.input);
                                             this.keyReset();
+
                                             this.state.input='';
                                         }
                                     }}>입력</button>
