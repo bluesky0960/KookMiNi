@@ -48,6 +48,7 @@ div[sender="bot"]{text-align:left}
   justify-content: flex-end;
   padding-right: 10px;
 }
+
 h1{
   font-weight: 400;
   font-size: 34px;
@@ -142,20 +143,24 @@ h1{
     padding: 16px;
     color: #757575 !important;
     font-weight: 400;
+    margin: 0 auto;
+    position: relative;
 }
 
 #message {
-    overflow-y: auto;
     margin-bottom: 10px;
     padding-top: 15px;
     height: 400px;
-    width: 920px;
+    width: 981px;
     display: flex;
     flex-direction: column;
     font-size: 1rem;
     line-height: 18px;
     color: #757575 !important;
     font-weight: 400;
+    position: initial;
+    overflow-y: auto;
+    -webkit-overflow-scrolling:auto;
 }
 
 #search_from {
