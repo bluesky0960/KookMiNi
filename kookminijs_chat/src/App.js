@@ -4,10 +4,9 @@ import {connect} from 'react-redux'
 import './App.css';
 import {sendMessage} from'./chat';
 
-var request = require('request');
 var lib_data = require('./library_place.js');
-var data1 = lib_data.lib();
-console.log(data1);
+lib_data.lib();
+//console.log(data1);
 
 
 
