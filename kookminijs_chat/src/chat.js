@@ -31,11 +31,11 @@ const messageMiddleware = () => next => action =>{
 const messageReducer = (state = [], action) => {
   switch(action.type){
       case 'MEMO_LIST':
-          console.log(action.payload);
+          //console.log(action.payload);
           return [...state, action.payload];
 
       case  'ON_MESSAGE':
-          console.log(action.payload);  
+          //console.log(action.payload);
           return [...state, action.payload];
 
       default:
