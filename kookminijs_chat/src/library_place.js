@@ -1,7 +1,5 @@
-
 var cheerio = require('cheerio');
 var request = require('request');
-var fs = require('fs');
 var data = '';
 var url = 'https://www.kookmin.ac.kr/site/ecampus/info/library.htm';
 
@@ -21,7 +19,7 @@ var url = 'https://www.kookmin.ac.kr/site/ecampus/info/library.htm';
           {
             $(this).find('td').each(function (index, elem)
              {
-            if(index==0){
+            if(index===0){
 
               library = $(this).text();
               library_totalsit = $(this).next().text();
@@ -38,15 +36,15 @@ var url = 'https://www.kookmin.ac.kr/site/ecampus/info/library.htm';
               data += ('사용불가기간 -> ' + library_unavailabletime + '\n'+ '\n');
               }
             });
-          });
-          // firebase.database().ref('library/').push({
-          //   data: data
-          // });
+          });         
 
       } catch (error) {
           console.error(error);
       }
+                
+
       console.log(data);
+
       //fs.writeFileSync('text.json', data, 'utf8');
       return data;
 
