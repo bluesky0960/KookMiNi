@@ -3,12 +3,6 @@ import firebase, { auth, provider } from "./firebase";
 import { connect } from "react-redux";
 import "./App.css";
 import { sendMessage } from "./chat";
-import "./old_lib.js";
-
-var request = require("request");
-var lib_data = require("./library_place.js");
-var data1 = lib_data.lib();
-console.log(data1);
 
 class App extends Component {
   constructor(props) {
@@ -143,7 +137,7 @@ class App extends Component {
       var data = firebase.database().ref("memos/" + this.state.user.uid).on("child_added", function (snapshot) {
           var txt = snapshot.val().txt;
           var txt_key = snapshot.key;
-          if (txt == e) {
+          if (txt === e) {
               console.log("같다");
               console.log(typeof (txt_key));
               console.log(txt_key);
