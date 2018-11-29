@@ -5,56 +5,55 @@ import "./App.css";
 import { sendMessage } from "./chat";
 
 class App extends Component {
-  constructor(props) {
-    super(props); // 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
+    constructor(props) {
+        super(props); // 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
+        this.checkAuthState();
 
-    this.checkAuthState();
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
 
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
+        this.state = {
+            input: "",
+            user: null
+        };
+    }
 
-    this.state = {
-      input: "",
-      user: null
+    _handleText = e => {
+        console.log(typeof e.target.value);
+        this.setState({ input: e.target.value });
     };
-  }
 
-  _handleText = e => {
-    console.log(typeof e.target.value);
-    this.setState({ input: e.target.value });
-  };
+    //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
+    login = () => {
+        auth.signInWithRedirect(provider);
+    };
+    getRedirect = () => {
+        auth.getRedirectResult().then(function (result) {
+            const user = result.user;
+            this.setState({
+                user
+            });
+        });
+    };
 
-  //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
-  login = () => {
-    auth.signInWithRedirect(provider);
-  };
-  getRedirect = () => {
-    auth.getRedirectResult().then(function(result) {
-      const user = result.user;
-      this.setState({
-        user
-      });
-    });
-  };
+    //logout 버튼 실행시 user값 null
+    logout = () => {
+        auth.signOut().then(() => {
+            this.setState({
+                user: null
+            });
+        });
+        window.location.reload(); //페이지 새로고침
+    };
 
-  //logout 버튼 실행시 user값 null
-  logout = () => {
-    auth.signOut().then(() => {
-      this.setState({
-        user: null
-      });
-    });
-    window.location.reload(); //페이지 새로고침
-  };
-
-  //login 상태 확인
-  checkAuthState = () => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ user });
-      }
-    });
-  };
+    //login 상태 확인
+    checkAuthState = () => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                this.setState({ user });
+            }
+        });
+    };
 
     //자동으로 스크롤 내리기
     autoscroll() {
@@ -62,87 +61,87 @@ class App extends Component {
         d.scrollTop = d.scrollHeight;
         console.log(d);
     }
-  //입력 눌렀을 때 실행
-  inputText = input => {
-    const { sendMessage } = this.props;
-    if (input === "") {
-      return 0;
-    } else {
-      sendMessage(input);
-      this.keyReset();
-        //this.setState({ input: "" });
-        this.autoscroll();
-      }
-      this.autoscroll();
-  };
-
-  //메모 함수 구현
-  note = input => {
-    if (this.state.user === null) {
-      alert("Google login 해주세요.");
-    } else {
-      var memoRef = firebase.database().ref("memos/" + this.state.user.uid);
-      var txt = input;
-      if (txt === "") {
-        return;
-      }
-      memoRef.push({
-        txt: txt,
-        creatData: new Date().getTime()
-      });
-      alert("저장되었습니다.");
-      this.setState({
-        input: ""
-      });
-      this.keyReset();
-    }
-  };
-
-  //search + list
-  search = input => {
-    const { sendMessage } = this.props;
-    if (this.state.user === null) {
-      alert("로그인 먼저 해주세요");
-      return 0;
-    } else {
-      var ref = firebase.database().ref("memos/" + this.state.user.uid);
-      ref.on("child_added", function(e) {
-          var message = e.val().txt;
-          var key = e.key;
+    //입력 눌렀을 때 실행
+    inputText = input => {
+        const { sendMessage } = this.props;
         if (input === "") {
-            sendMessage(message, "MEMO_LIST", "bot_list", key);
-        } else {
-          if (message.match(input)) {
-            //console.log(message);
-              sendMessage(message, "MEMO_LIST", "bot_list", key);
-          }
+            return 0;
         }
-      });
-      this.keyReset();
-    }
-  };
+        else {
+            sendMessage(input);
+            this.keyReset();
+            //this.setState({ input: "" });
+            this.autoscroll();
+        }
+        this.autoscroll();
+    };
 
-  //수정함수
-  updata = () => {
-    /**memoRef.update({
+    //메모 함수 구현
+    note = input => {
+        if (this.state.user === null) {
+            alert("Google login 해주세요.");
+        }
+        else {
+            var memoRef = firebase.database().ref("memos/" + this.state.user.uid);
+            var txt = input;
+            if (txt === "") {
+                return;
+            }
+        memoRef.push({
             txt: txt,
-            createData: new Date().getTime(),
-            updateData: new Date().getTime()
-        });*/
-  };
+            creatData: new Date().getTime()
+        });
+        alert("저장되었습니다.");
+        this.setState({
+            input: ""
+        });
+        this.keyReset();
+        }
+    };
 
-  //삭제 함수
-  delete(e){
-      //x버튼을 누루면
-        //var tmp_key = ;
-      console.log(e);
-        //this.search();
-  };
+    //search + list
+    search = input => {
+        const { sendMessage } = this.props;
+        if (this.state.user === null) {
+            alert("로그인 먼저 해주세요");
+            return 0;
+        }
+        else {
+            var ref = firebase.database().ref("memos/" + this.state.user.uid);
+            ref.on("child_added", function(e) {
+                var message = e.val().txt;
+                var key = e.key;
+                if (input === "") {
+                    sendMessage(message, "MEMO_LIST", "bot_list", key);
+                }
+                else {
+                    if (message.match(input)) {
+                    //console.log(message);
+                    sendMessage(message, "MEMO_LIST", "bot_list", key);
+                    }
+                }
+            });
+        this.keyReset();
+        }
+    };
 
-  //입력창 초기화
-  keyReset() {
-    document.getElementById("message_box").value = "";
-  }
+    //수정함수
+    updata = () => {
+
+    };
+
+    //삭제 함수
+    delete(e){
+        //x버튼을 누루면
+        var tmp_key = firebase.database().ref("memos/" + this.state.user.uid + '/' + e);
+        console.log(e);
+        tmp_key.remove();
+    };
+
+    //입력창 초기화
+    keyReset() {
+        document.getElementById("message_box").value = "";
+    }
   //화면에 랜더링(표시)
   render() {
     const { feed } = this.props;
