@@ -136,7 +136,12 @@ class App extends Component {
         //x버튼을 누루면
         var tmp_key = firebase.database().ref("memos/" + this.state.user.uid + '/' + e);
         console.log(e);
-        tmp_key.remove();
+        if (window.confirm("삭제 할거임?")) {
+            tmp_key.remove();
+        }
+        else {
+            return;
+        }
     };
 
     //입력창 초기화
