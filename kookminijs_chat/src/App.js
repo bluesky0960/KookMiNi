@@ -107,13 +107,14 @@ class App extends Component {
     } else {
       var ref = firebase.database().ref("memos/" + this.state.user.uid);
       ref.on("child_added", function(e) {
-        var message = e.val().txt;
+          var message = e.val().txt;
+          var key = e.key;
         if (input === "") {
-            sendMessage(message, "MEMO_LIST", "bot_list");
+            sendMessage(message, "MEMO_LIST", "bot_list", key);
         } else {
           if (message.match(input)) {
             //console.log(message);
-              sendMessage(message, "MEMO_LIST", "bot_list");
+              sendMessage(message, "MEMO_LIST", "bot_list", key);
           }
         }
       });
@@ -133,26 +134,9 @@ class App extends Component {
   //삭제 함수
   delete(e){
       //x버튼을 누루면
-      var tmp_key;
-      var data = firebase.database().ref("memos/" + this.state.user.uid).on("child_added", function (snapshot) {
-          var txt = snapshot.val().txt;
-          var txt_key = snapshot.key;
-          if (txt === e) {
-              console.log("같다");
-              console.log(typeof (txt_key));
-              console.log(txt_key);
-              tmp_key = txt_key;
-          }
-          else {
-              console.log("다르다");
-          }
-      });
-
-      var remove_data = firebase.database().ref('memos/' + this.state.user.uid + '/' + tmp_key);
-      console.log(remove_data);
-      remove_data.remove();
-      sendMessage("MEMO_LIST", "bot_list");
-      this.search();
+        //var tmp_key = ;
+      console.log(e);
+        //this.search();
   };
 
   //입력창 초기화
@@ -201,12 +185,20 @@ class App extends Component {
                   >
                     검색
                   </button>
+                                <button
+                                    id="button_2"
+                                    onClick={() => {
+                                        this.search(this.state.input);
+                                    }}
+                                >
+                                    날씨
+                  </button>
                 </div>
                 <div id="message">
                     {feed.map(entry => (
                                     <div sender={entry.sender}>
                                         {entry.text}<button sender={entry.sender} onClick={() => {
-                                            this.delete(entry.text);
+                                            this.delete(entry.key);
                                         }}></button>
                                     </div>
                     ))}
