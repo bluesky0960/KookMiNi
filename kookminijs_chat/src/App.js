@@ -4,11 +4,6 @@ import { connect } from "react-redux";
 import "./App.css";
 import { sendMessage } from "./chat";
 
-var request = require("request");
-var lib_data = require("./library_place.js");
-var data1 = lib_data.lib();
-console.log(data1);
-
 class App extends Component {
   constructor(props) {
     super(props); // 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
@@ -103,7 +98,7 @@ class App extends Component {
     }
   };
 
-  //검색 함수 : 일반 게시판처럼 단어 검색하면 그 단어 들어간 메모 출력해주는 함수
+  //search + list
   search = input => {
     const { sendMessage } = this.props;
     if (this.state.user === null) {
@@ -114,11 +109,11 @@ class App extends Component {
       ref.on("child_added", function(e) {
         var message = e.val().txt;
         if (input === "") {
-          sendMessage(message, "MEMO_LIST", "bot");
+            sendMessage(message, "MEMO_LIST", "bot_list");
         } else {
           if (message.match(input)) {
             //console.log(message);
-            sendMessage(message, "MEMO_LIST", "bot");
+              sendMessage(message, "MEMO_LIST", "bot_list");
           }
         }
       });
@@ -136,20 +131,34 @@ class App extends Component {
   };
 
   //삭제 함수
-  remove = () => {
-    //x버튼을 누루면
-    /*
-        if (!confirm('삭제하시겠습니까?')) {
-            return;
-        }
-    */
+  delete(e){
+      //x버튼을 누루면
+      var tmp_key;
+      var data = firebase.database().ref("memos/" + this.state.user.uid).on("child_added", function (snapshot) {
+          var txt = snapshot.val().txt;
+          var txt_key = snapshot.key;
+          if (txt === e) {
+              console.log("같다");
+              console.log(typeof (txt_key));
+              console.log(txt_key);
+              tmp_key = txt_key;
+          }
+          else {
+              console.log("다르다");
+          }
+      });
+
+      var remove_data = firebase.database().ref('memos/' + this.state.user.uid + '/' + tmp_key);
+      console.log(remove_data);
+      remove_data.remove();
+      sendMessage("MEMO_LIST", "bot_list");
+      this.search();
   };
 
   //입력창 초기화
   keyReset() {
     document.getElementById("message_box").value = "";
   }
-
   //화면에 랜더링(표시)
   render() {
     const { feed } = this.props;
@@ -194,9 +203,13 @@ class App extends Component {
                   </button>
                 </div>
                 <div id="message">
-                  {feed.map(entry => (
-                    <div sender={entry.sender}> {entry.text} </div>
-                  ))}
+                    {feed.map(entry => (
+                                    <div sender={entry.sender}>
+                                        {entry.text}<button sender={entry.sender} onClick={() => {
+                                            this.delete(entry.text);
+                                        }}></button>
+                                    </div>
+                    ))}
                 </div>
                 <div id="message-form">
                   <textarea
@@ -209,7 +222,7 @@ class App extends Component {
                   <button
                     id="button_2"
                     onClick={() => {
-                      this.inputText(this.state.input);
+                        this.inputText(this.state.input);
                     }}
                   >
                     입력
