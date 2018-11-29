@@ -142,98 +142,53 @@ class App extends Component {
     keyReset() {
         document.getElementById("message_box").value = "";
     }
-  //화면에 랜더링(표시)
-  render() {
-    const { feed } = this.props;
-    return (
-      <div className="Whole_container">
-        <header className="Header">
-          <div className="In_header">
-            <div className="In_in_header">
-              <h1>Kookmini</h1>
-            </div>
-            <div id="user-container">
-              {this.state.user ? (
-                <button className="sign_button" onClick={this.logout}>
-                  sign Out
-                </button>
-              ) : (
-                <button className="sign_button" onClick={this.login}>
-                  Sign in with Google
-                </button>
-              )}
-            </div>
-          </div>
-        </header>
-        <main>
-          <div className="in_main">
-            <div className="in_in_main">
-              <div className="message_card">
-                <div id="search_from">
-                  <textarea
-                    type="text"
-                    id="search_box"
-                    onChange={this._handleText}
-                    placeholder="?"
-                  />
-                  <button
-                    id="button_2"
-                    onClick={() => {
-                      this.search(this.state.input);
-                    }}
-                  >
-                    검색
-                  </button>
-                                <button
-                                    id="button_2"
-                                    onClick={() => {
-                                        this.search(this.state.input);
-                                    }}
-                                >
-                                    날씨
-                  </button>
-                </div>
-                <div id="message">
-                    {feed.map(entry => (
+    //화면에 랜더링(표시)
+    render() {
+        const { feed } = this.props;
+        return (
+            <div className="Whole_container">
+                <header className="Header">
+                    <div className="In_header">
+                        <div className="In_in_header">
+                            <h1>Kookmini</h1>
+                        </div>
+                        <div id="user-container">
+                            {this.state.user ? (
+                                <button className="sign_button" onClick={this.logout}>sign Out</button>
+                            ): (
+                                <button className="sign_button" onClick={this.login}>Sign in with Google</button>
+                            )}
+                        </div>
+                    </div>
+                </header>
+                <main>
+                    <div className="in_main">
+                        <div className="in_in_main">
+                            <div className="message_card">
+                                <div id="search_from">
+                                    <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?" />
+                                    <button id="button_2" onClick={() => {this.search(this.state.input);}}>검색</button>
+                                    <button id="button_2" onClick={() => {this.search(this.state.input);}}>날씨</button>
+                                </div>
+                                <div id="message">{feed.map(entry => (
                                     <div sender={entry.sender}>
-                                        {entry.text}<button sender={entry.sender} onClick={() => {
-                                            this.delete(entry.key);
-                                        }}></button>
+                                        {entry.text}
+                                        <button sender={entry.sender} onClick={() => {this.delete(entry.key);}}></button>
                                     </div>
-                    ))}
-                </div>
-                <div id="message-form">
-                  <textarea
-                    type="text"
-                    id="message_box"
-                    value={this.state.input}
-                    onChange={this._handleText}
-                    placeholder="궁금한점?"
-                  />
-                  <button
-                    id="button_2"
-                    onClick={() => {
-                        this.inputText(this.state.input);
-                    }}
-                  >
-                    입력
-                  </button>
-                  <button
-                    id="button_2"
-                    onClick={() => {
-                      this.note(this.state.input);
-                    }}
-                  >
-                    메모
-                  </button>
-                </div>
-              </div>
+                                ))}
+                                </div>
+                                <div id="message-form">
+                                    <textarea type="text" id="message_box" value={this.state.input} onChange={this._handleText} placeholder="궁금한점?"/>
+                                    <button id="button_2" onClick={() => {this.inputText(this.state.input);}}>입력</button>
+                                    <button id="button_2" onClick={() => {this.note(this.state.input);}}>메모</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
+        );
+    }
 }
 const mapStateToProps = state => ({
   feed: state
