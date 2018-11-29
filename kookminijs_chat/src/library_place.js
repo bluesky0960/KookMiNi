@@ -2,10 +2,11 @@
 var cheerio = require('cheerio');
 var request = require('request');
 var fs = require('fs');
-var data = '';
+var data = '2';
 var url = 'https://www.kookmin.ac.kr/site/ecampus/info/library.htm';
 
- module.exports.lib = function () {
+function lib () {
+  var data ="";
   request(url, function (error, response, html) {
       if (error) { throw error };
 
@@ -48,7 +49,11 @@ var url = 'https://www.kookmin.ac.kr/site/ecampus/info/library.htm';
       }
       console.log(data);
       //fs.writeFileSync('text.json', data, 'utf8');
-      return data;
-
+      
+      
   });
+  return data;
  }
+
+data = lib();
+export {data};
