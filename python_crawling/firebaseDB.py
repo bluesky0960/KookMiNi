@@ -2,6 +2,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 
+import pandas
+
 import weather
 import data
 
@@ -11,6 +13,13 @@ cred = credentials.Certificate('./kookmini-73ede-firebase-adminsdk-3e0v6-b7d2bdc
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://kookmini-73ede.firebaseio.com/'
 })
+
+dt_index = pandas.date_range(start='20181101', end='20201101', freq='W-MON')
+
+dt_list = dt_index.strftime("%Y-%m-%d").tolist()
+
+for i in dt_list:
+    print(i)
 
 data_weather = weather.data_organizer(weather.get_weather(weather.url_builder('jeju')))
 data_lib = data.get_lib()
