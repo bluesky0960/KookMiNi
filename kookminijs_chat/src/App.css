@@ -1,36 +1,43 @@
 .App {
   text-align: center;
 }
-div[sender='user']{
-    text-align:right;
+div[sender='user'] {
+    text-align: right;
     border: 0.5px solid;
     border-color: gray;
-    padding: 10px;
-    margin-top: 10px;
+    padding: 5px;
+    margin-top: 5px;
     margin-left: 530px;
     width: 400px;
-    height: auto;
+    border-radius: 5px;
+    background-color:cornsilk;  
 }
+
 div[sender="bot"] {
     text-align: left;
     border: 0.5px solid blue;
     padding: 5px;
-    margin-top: 10px;
+    margin-top: 5px;
     width: 400px;
-    height: auto;
+    border-radius: 5px;
+    background-color:aqua;
 }
 div[sender="bot_list"] {
     text-align: left;
     border: 0.5px solid red;
-    padding: 7.5px;
-    margin-top: 10px;
+    padding: 5px;
+    margin-top: 5px;
     width: 400px;
-
+    border-radius: 5px;
+    background-color: pink;
 }
 button[sender="bot_list"] {
-    height:16px;
-    margin-left:0px;
+    height: 16px;
+    color: red;
+    margin-left: 0px;
     position: relative;
+    background-color: rgba( 255, 255, 255, 0);
+    border-color: rgba( 255, 255, 255, 0);
 }
 button[sender="bot"] {
     visibility: hidden;

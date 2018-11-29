@@ -70,7 +70,7 @@ class App extends Component {
         else {
             sendMessage(input);
             this.keyReset();
-            //this.setState({ input: "" });
+            this.setState({ input: "" });
             this.autoscroll();
         }
         this.autoscroll();
@@ -110,6 +110,7 @@ class App extends Component {
             var ref = firebase.database().ref("memos/" + this.state.user.uid);
             ref.on("child_added", function(e) {
                 var message = e.val().txt;
+                console.log(message);
                 var key = e.key;
                 if (input === "") {
                     sendMessage(message, "MEMO_LIST", "bot_list", key);
@@ -173,7 +174,7 @@ class App extends Component {
                                 <div id="message">{feed.map(entry => (
                                     <div sender={entry.sender}>
                                         {entry.text}
-                                        <button sender={entry.sender} onClick={() => {this.delete(entry.key);}}></button>
+                                        <button sender={entry.sender} onClick={() => {this.delete(entry.key);}}>X</button>
                                     </div>
                                 ))}
                                 </div>
