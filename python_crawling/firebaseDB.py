@@ -3,7 +3,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 
 import weather
-import lib
+import data
 
 # Fetch the service account key JSON file contents
 cred = credentials.Certificate('./kookmini-73ede-firebase-adminsdk-3e0v6-b7d2bdc17f.json')
@@ -12,9 +12,11 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://kookmini-73ede.firebaseio.com/'
 })
 
-data_weather = weather.data_organizer(weather.get_weather(weather.url_builder('Seoul')))
-data_lib = lib.get_lib()
+data_weather = weather.data_organizer(weather.get_weather(weather.url_builder('jeju')))
+data_lib = data.get_lib()
 
+data_food_bup = data.get_bup()
+data_food_hak = data.get_hak()
 # Save data
 ref_weather = db.reference('/weather')
 ref_weather.set(
@@ -37,6 +39,34 @@ ref_lib.set(
         'data' : data_lib
     }
 )
+
+ref_food = db.reference('/food')
+ref_food.set(
+    {
+        '법학관' :
+                {
+                    '월요일' : data_food_bup[0],
+                    '화요일' : data_food_bup[1],
+                    '수요일' : data_food_bup[2],
+                    '목요일' : data_food_bup[3],
+                    '금요일' : data_food_bup[4],
+                    '토요일' : data_food_bup[5],
+                    '일요일' : data_food_bup[6],
+                },
+        '학생식당' :
+                {
+                    '월요일' : data_food_hak[0],
+                    '화요일' : data_food_hak[1],
+                    '수요일' : data_food_hak[2],
+                    '목요일' : data_food_hak[3],
+                    '금요일' : data_food_hak[4],
+                    '토요일' : data_food_hak[5],
+                    '일요일' : data_food_hak[6],
+                }        
+    }
+)
+
+
 """
 # Update data
 ref = db.reference('boxes')
