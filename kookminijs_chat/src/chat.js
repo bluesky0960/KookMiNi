@@ -1,6 +1,7 @@
 import {ApiAiClient} from 'api-ai-javascript';
 import {applyMiddleware,createStore} from 'redux';
 import "./App.css";
+import firebase from "./firebase";
 
 const accessToken = 'bc9ce7abbed5492895de4cc772b1439a';
 const client = new ApiAiClient({accessToken});
@@ -15,8 +16,12 @@ export const sendMessage = (text, type = 'ON_MESSAGE', sender='user', key) => ({
 const messageMiddleware = () => next => action =>{
     next(action);
     function onSuccess(response){
-        const {result: {fulfillment}} = response;
-        next(sendMessage(fulfillment.speech, action.type, action.sender='bot'));
+        const {result: Result} = response;
+        if(Result.metadata.intentName === 'library_seat'){
+            var ref = firebase.database().ref("lib/");
+            ref.val().data;
+        }
+        next(sendMessage(Result.fulfillment.speech, action.type, action.sender='bot'));
     }
     if(action.type === 'ON_MESSAGE'){
         const {text} = action.payload;
