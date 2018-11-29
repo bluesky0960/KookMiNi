@@ -7,9 +7,9 @@ const client = new ApiAiClient({accessToken});
 
 //const ON_MESSAGE = 'ON_MESSAGE';
 //memo = memo.replace("\n", "<br>");
-export const sendMessage = (text, type = 'ON_MESSAGE', sender='user') => ({
+export const sendMessage = (text, type = 'ON_MESSAGE', sender='user', key) => ({
     type: type,
-    payload: { text, sender }
+    payload: { text, sender, key }
 });
 
 const messageMiddleware = () => next => action =>{
