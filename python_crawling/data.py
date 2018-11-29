@@ -22,7 +22,7 @@ def get_lib():
     return data
 
 
-def get_food():
+def get_bup():
     data = ""
     data += '법식'
     html = get_html("http://kmucoop.kookmin.ac.kr/restaurant/restaurant.php?w=1")
