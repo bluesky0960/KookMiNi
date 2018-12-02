@@ -19,7 +19,9 @@ const messageMiddleware = () => next => action =>{
         const {result: Result} = response;
         if(Result.metadata.intentName === 'library_seat'){
             var ref = firebase.database().ref("lib/");
-            ref.val().data;
+            ref.on("child_added", function (e) {
+                e.val();
+            });
         }
         next(sendMessage(Result.fulfillment.speech, action.type, action.sender='bot'));
     }
@@ -34,17 +36,25 @@ const messageMiddleware = () => next => action =>{
 //const initState = [{ text: "안녕, 난 국미니라고 해~" }];
 
 const messageReducer = (state = [], action) => {
-  switch(action.type){
-      case 'MEMO_LIST':
-          //console.log(action.payload);
+    switch (action.type) {
+        case 'MEMO_LIST':
+          console.log(action.payload);
           return [...state, action.payload];
 
-      case  'ON_MESSAGE':
-          //console.log(action.payload);
-          return [...state, action.payload];
+         case  'ON_MESSAGE':
+            //console.log(action.payload);
+            return [...state, action.payload];
 
-      default:
-          return state;
+        case 'LIB_LIST':
+            return [...state, action.payload];
+
+        case 'WEATHER_LIST':
+            console.log(action.payload);
+            return [...state, action.payload];
+
+
+        default:
+            return state;
   }
 };
 

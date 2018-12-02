@@ -126,6 +126,30 @@ class App extends Component {
         }
     };
 
+    //도서관자리
+    lib_sit(){
+        var lib = firebase.database().ref("lib/");
+        lib.on("child_added", function (e) {
+            var txt = e.val();
+            var key = e.key;
+            console.log(txt);
+            console.log(key);
+            sendMessage(txt, 'LIB_LIST', 'bot_list', key);
+        });
+        //console.log(lib);
+    }
+
+    //날씨
+    today_weather() {
+        var weather = firebase.database().ref("weather/Jeju/");
+        weather.on("child_added", function (e) {
+            var txt = e.val();
+            var key = e.key;
+            //console.log(txt);
+            sendMessage(txt, "WEATHER_LIST", "bot_list");
+        });
+    }
+
     //수정함수
     updata = () => {
 
@@ -173,8 +197,10 @@ class App extends Component {
                             <div className="message_card">
                                 <div id="search_from">
                                     <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?" />
-                                    <button id="button_2" onClick={() => {this.search(this.state.input);}}>검색</button>
-                                    <button id="button_2" onClick={() => {this.search(this.state.input);}}>날씨</button>
+                                    <button id="button_2" onClick={() => { this.search(this.state.input); }}>검색</button>
+                                    <button id="button_2" onClick={() => { this.today_weather(); }}>날씨</button>
+                                    <button id="button_2" onClick={() => { this.lib_sit(); }}>자리</button>
+
                                 </div>
                                 <div id="message">{feed.map(entry => (
                                     <div sender={entry.sender}>
