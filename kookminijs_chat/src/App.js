@@ -17,17 +17,29 @@ class App extends Component {
             user: null
         };
     }
+    
 
+    
     _handleText = e => {
         console.log(typeof e.target.value);
         this.setState({ input: e.target.value });
     };
 
+
+
     //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
     login = () => {
         auth.signInWithRedirect(provider);
     };
-    
+    getRedirect = () => {
+        auth.getRedirectResult().then(function (result) {
+            const user = result.user;
+            this.setState({
+                user
+            });
+        });
+    };
+
     //logout 버튼 실행시 user값 null
     logout = () => {
         auth.signOut().then(() => {
@@ -93,6 +105,7 @@ class App extends Component {
 
     //search + list
     search = input => {
+        console.log(input);
         const { sendMessage } = this.props;
         if (this.state.user === null) {
             alert("로그인 먼저 해주세요");
@@ -102,9 +115,9 @@ class App extends Component {
             var ref = firebase.database().ref("memos/" + this.state.user.uid);
             ref.on("child_added", function(e) {
                 var message = e.val().txt;
-                console.log(message);
+                //console.log(message);
                 var key = e.key;
-                console.log(key);
+                //console.log(key);
                 if (input === "") {
                     sendMessage(message, "MEMO_LIST", "bot_list", key);
                 }
@@ -117,6 +130,7 @@ class App extends Component {
             });
         this.keyReset();
         }
+
     };
 
     //도서관자리
@@ -133,6 +147,17 @@ class App extends Component {
         //console.log(lib);
     }
 
+    //날씨
+    today_weather() {
+        const { sendMessage } = this.props;
+        var weather = firebase.database().ref("weather/Jeju/");
+        weather.on("child_added", function (e) {
+            var txt = e.val();
+            var key = e.key;
+            console.log(txt);
+            sendMessage(txt, "WEATHER_LIST", "bot_list");
+        });
+    }
 
     //수정함수
     updata = () => {
@@ -155,6 +180,8 @@ class App extends Component {
     //입력창 초기화
     keyReset() {
         document.getElementById("message_box").value = "";
+        document.getElementById("search_box").value = "";
+        this.state.input = '';
     }
     //화면에 랜더링(표시)
     render() {
@@ -180,8 +207,8 @@ class App extends Component {
                         <div className="in_in_main">
                             <div className="message_card">
                                 <div id="search_from">
-                                    <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?" />
-                                    <button id="button_2" onClick={() => { this.search(this.state.input); }}>검색</button>
+                                    <textarea type="text" id="search_box"   placeholder="?" />
+                                    <button id="button_2" onClick={() => { this.search(document.getElementById("search_box").value); }}>검색</button>
                                     <button id="button_2" onClick={() => { this.today_weather(); }}>날씨</button>
                                     <button id="button_2" onClick={() => { this.lib_sit(); }}>자리</button>
 
