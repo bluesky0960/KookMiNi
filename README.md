@@ -14,7 +14,7 @@ npm install
 Clone the repository and cd into it
 ```
 git clone https://github.com/https://github.com/bluesky0960/KookMiNi.git
-cd KookMiNi
+cd KookMiNi/kookminijs_chat
 ```
 run 
 ```
