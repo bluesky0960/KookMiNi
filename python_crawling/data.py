@@ -13,7 +13,7 @@ def get_lib():
     html= get_html('https://www.kookmin.ac.kr/site/ecampus/info/library.htm')
     link = html.select('tbody')
     link = link[0].select('td')
-    data = "";
+    data = ""
     for i in range(3):
         data += '열람실 명 : ' + link[i*4+0].text + '\n'
         data += '총 좌석 : ' + link[i*4+1].text + '\n'

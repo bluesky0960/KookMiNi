@@ -1,6 +1,8 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
+import datetime
+import pandas
 
 import weather
 import data
@@ -11,6 +13,13 @@ cred = credentials.Certificate('./kookmini-73ede-firebase-adminsdk-3e0v6-b7d2bdc
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://kookmini-73ede.firebaseio.com/'
 })
+
+monday = pandas.date_range(start='20180901', end='20201231',freq='W-MON')
+
+friday = monday + datetime.timedelta(+4)
+
+print(monday)
+print(friday)
 
 # Save data
 def db_weather():
