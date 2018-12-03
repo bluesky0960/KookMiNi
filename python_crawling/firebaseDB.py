@@ -31,15 +31,22 @@ def db_weather():
     )
 
 def db_lib():
+    print(20000)
     data_lib = data.get_lib()
     ref_lib = db.reference('/lib')
+    if __name__ == "__main__":
+        print(data_lib)
     ref_lib.set(
         {
             'data' : data_lib
         }
     )
-    
+
+if __name__ =="__main__":
+    db_lib()
+
 def db_food():
+    print(100000)
     data_food_hak = data.get_hak()
     data_food_bup = data.get_bup()
     ref_food = db.reference('/food')
