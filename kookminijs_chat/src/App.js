@@ -134,6 +134,8 @@ class App extends Component {
     //입력창 초기화
     keyReset() {
         document.getElementById("message_box").value = "";
+        document.getElementById("search_box").value = "";
+        this.state.input = '';
     }
     //화면에 랜더링(표시)
     render() {
@@ -159,8 +161,8 @@ class App extends Component {
                         <div className="in_in_main">
                             <div className="message_card">
                                 <div id="search_from">
-                                    <textarea type="text" id="search_box"  onChange={this._handleText} placeholder="?" />
-                                    <button id="button_2" onClick={() => { this.search(this.state.input); }}>검색</button>
+                                    <textarea type="text" id="search_box"   placeholder="?" />
+                                    <button id="button_2" onClick={() => { this.search(document.getElementById("search_box").value); }}>검색</button>
 
                                 </div>
                                 <div id="message">{feed.map(entry => (
