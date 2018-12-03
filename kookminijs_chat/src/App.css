@@ -173,6 +173,23 @@
     line-height: 36px;
     vertical-align: middle;
   }
+.os_button {
+    background: 0 0;
+    border: none;
+    border-radius: 2px;
+    color: #fff !important;
+    position: relative;
+    height: 36px;
+    right: 80px;
+    margin-top: 40px;
+    min-width: 64px;
+    padding: 0 16px;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    will-change: box-shadow;
+}
   
   .main_message{
     position: relative;

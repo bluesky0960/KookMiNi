@@ -161,7 +161,8 @@ class App extends Component {
                                 <button className="sign_button" onClick={this.logout}>sign Out</button>
                             ): (
                                 <button className="sign_button" onClick={this.login}>Sign in with Google</button>
-                            )}
+                                )}
+                            <button className="os_button">☆</button>
                         </div>
                     </div>
                 </header>
