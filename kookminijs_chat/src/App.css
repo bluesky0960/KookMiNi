@@ -30,7 +30,7 @@ div[sender="bot"] {
     text-align: center;
     position: relative;
     padding: 10px;
-    background: #FFBEFF;
+    background: #FFC8FF;
     height: auto;
     line-height: auto;
     width: auto;
@@ -41,7 +41,7 @@ div[sender="bot"] {
 div[sender="bot"]:after {
     content: '';
     position: absolute;
-    border-top: 10px solid #FFBEFF;
+    border-top: 10px solid #FFC8FF;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     bottom: -9px;
@@ -49,23 +49,12 @@ div[sender="bot"]:after {
 }
 
 
-
-/* div[sender="bot_list"] {
-    text-align: left;
-    border: 0.5px solid red;
-    padding: 5px;
-    margin-top: 5px;
-    width: 400px;
-    border-radius: 5px;
-    background-color: pink;
-} */
-
 div[sender="bot_list"] {
     display: inline-block;
     text-align: center;
     position: relative;
     padding: 10px;
-    background: #FFBEFF;
+    background: #FFB1BC;
     height: auto;
     line-height: auto;
     width: auto;
@@ -76,23 +65,22 @@ div[sender="bot_list"] {
 div[sender="bot_list"]:after {
     content: '';
     position: absolute;
-    border-top: 10px solid #FFBEFF;
+    border-top: 10px solid #FFB1BC;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     bottom: -9px;
     left: 10px;
 }
 
-
-
 button[sender="bot_list"] {
-    height: 16px;
+    height: auto;
     color: red;
     margin-left: 0px;
     position: relative;
     background-color: rgba( 255, 255, 255, 0);
     border-color: rgba( 255, 255, 255, 0);
 }
+
 
 
 button[sender="bot"] {
