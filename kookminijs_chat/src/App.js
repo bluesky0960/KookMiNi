@@ -17,28 +17,17 @@ class App extends Component {
             user: null
         };
     }
-    
 
     
     _handleText = e => {
-        console.log(typeof e.target.value);
         this.setState({ input: e.target.value });
     };
-
-
 
     //login 버튼 실행시 google login popup 뜨고 login 성공 시 user set
     login = () => {
         auth.signInWithRedirect(provider);
     };
-    getRedirect = () => {
-        auth.getRedirectResult().then(function (result) {
-            const user = result.user;
-            this.setState({
-                user
-            });
-        });
-    };
+
 
     //logout 버튼 실행시 user값 null
     logout = () => {
@@ -95,7 +84,7 @@ class App extends Component {
             txt: txt,
             creatData: new Date().getTime()
         });
-        alert("저장되었습니다.");
+        //alert("저장되었습니다.");
         this.setState({
             input: ""
         });
@@ -105,64 +94,29 @@ class App extends Component {
 
     //search + list
     search = input => {
-        console.log(input);
-        const { sendMessage } = this.props;
+        const {sendMessage} = this.props;
         if (this.state.user === null) {
             alert("로그인 먼저 해주세요");
             return 0;
         }
         else {
             var ref = firebase.database().ref("memos/" + this.state.user.uid);
-            ref.on("child_added", function(e) {
+            ref.on("child_added", function (e) {
                 var message = e.val().txt;
-                //console.log(message);
                 var key = e.key;
-                //console.log(key);
                 if (input === "") {
                     sendMessage(message, "MEMO_LIST", "bot_list", key);
                 }
                 else {
                     if (message.match(input)) {
-                    //console.log(message);
-                    sendMessage(message, "MEMO_LIST", "bot_list", key);
+                        sendMessage(message, "MEMO_LIST", "bot_list", key);
+
                     }
                 }
             });
-        this.keyReset();
+            this.keyReset();
         }
-
-    };
-
-    //도서관자리
-    lib_sit(){
-        const { sendMessage } = this.props;
-        var lib = firebase.database().ref("lib/");
-        lib.on("child_added", function (e) {
-            var txt = e.val();
-            var key = e.key;
-            console.log(txt);
-            console.log(key);
-            sendMessage(txt, "LIB_LIST", "bot_list", key);
-        });
-        //console.log(lib);
     }
-
-    //날씨
-    today_weather() {
-        const { sendMessage } = this.props;
-        var weather = firebase.database().ref("weather/Jeju/");
-        weather.on("child_added", function (e) {
-            var txt = e.val();
-            var key = e.key;
-            console.log(txt);
-            sendMessage(txt, "WEATHER_LIST", "bot_list");
-        });
-    }
-
-    //수정함수
-    updata = () => {
-
-    };
 
     //삭제 함수
     delete(e){
@@ -180,8 +134,6 @@ class App extends Component {
     //입력창 초기화
     keyReset() {
         document.getElementById("message_box").value = "";
-        document.getElementById("search_box").value = "";
-        this.state.input = '';
     }
     //화면에 랜더링(표시)
     render() {
@@ -207,10 +159,8 @@ class App extends Component {
                         <div className="in_in_main">
                             <div className="message_card">
                                 <div id="search_from">
-                                    <textarea type="text" id="search_box"   placeholder="?" />
-                                    <button id="button_2" onClick={() => { this.search(document.getElementById("search_box").value); }}>검색</button>
-                                    <button id="button_2" onClick={() => { this.today_weather(); }}>날씨</button>
-                                    <button id="button_2" onClick={() => { this.lib_sit(); }}>자리</button>
+                                    <textarea type="text" id="search_box"  onChange={this._handleText} placeholder="?" />
+                                    <button id="button_2" onClick={() => { this.search(this.state.input); }}>검색</button>
 
                                 </div>
                                 <div id="message">{feed.map(entry => (
@@ -221,7 +171,7 @@ class App extends Component {
                                 ))}
                                 </div>
                                 <div id="message-form">
-                                    <textarea type="text" id="message_box" value={this.state.input} onChange={this._handleText} placeholder="궁금한점?"/>
+                                    <textarea type="text" id="message_box" value={this.state.input}  onChange={this._handleText} placeholder="궁금한점?"/>
                                     <button id="button_2" onClick={() => {this.inputText(this.state.input);}}>입력</button>
                                     <button id="button_2" onClick={() => {this.note(this.state.input);}}>메모</button>
                                 </div>
