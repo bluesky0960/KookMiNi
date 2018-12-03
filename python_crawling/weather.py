@@ -2,21 +2,13 @@ import requests
 import datetime
 import json
 import urllib.request
-from bs4 import BeautifulSoup
+
 
 def time_converter(time):
     converted_time = datetime.datetime.fromtimestamp(
         int(time)
     ).strftime('%I:%M %p')
     return converted_time
-
-def get_html(url):
-    _html = ""
-    resp = requests.get(url)
-    resp.encoding = None
-    _html = resp.text
-    soup = BeautifulSoup(_html, 'lxml')
-    return soup
 
 
 def url_builder(city_name):

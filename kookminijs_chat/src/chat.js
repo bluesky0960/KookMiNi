@@ -17,13 +17,67 @@ const messageMiddleware = () => next => action =>{
     next(action);
     function onSuccess(response){
         const {result: Result} = response;
-        if(Result.metadata.intentName === 'library_seat'){
+        //console.log(Result.metadata.intentName);
+        //console.log(action.type);
+        const intent = Result.metadata.intentName;
+        //console.log(intent);
+        switch(intent){
+            case 'library_seat':
+                var lib = firebase.database().ref("lib/");
+                lib.on("child_added", function (e) {
+                    var txt = e.val();
+                    var key = e.key;
+                    next(sendMessage(txt, action.type, action.sender='bot'));
+                });
+                break;
+
+
+            case 'food':
+                var time = new Date();
+                var dd = time.getDate().toString();
+                var month = (time.getMonth()+1).toString();
+                var year = time.getFullYear().toString();
+                if(dd<10){dd='0'+dd};
+                if(month<10){month ='0' + month};
+                var today = year+'-'+month+'-'+dd;
+                console.log(today);
+                var food = firebase.database().ref("food/"+today);
+                food.on("child_added", function (e) {
+                    var txt = e.val();
+
+                    next(sendMessage(txt, action.type, action.sender='bot'));
+                });
+                break;
+            case 'weather':
+                var weather = firebase.database().ref("weather/Seoul/");
+                weather.on("value", function (e) {
+                    var txt = e.val();
+                    var result ="현재 기온 : " + txt.temp  +
+                        "\n대기 상태 : " + txt.sky +
+                        "\n현재 습도 : "+ txt.humidity + "%" +
+                        "\n최고 기온 : " + txt.temp_max +
+                        "\n최저 기온 : " + txt.temp_min +
+                        "\n갱신 시각 : " + txt.dt ;
+                    //var key = e.key;
+                    next(sendMessage(result, action.type, action.sender='bot'));
+                });
+                break;
+
+            default:
+                next(sendMessage(Result.fulfillment.speech, action.type, action.sender='bot'));
+        }
+
+
+
+
+
+        /*if(Result.metadata.intentName === 'library_seat'){
+            console.log(Result.metadata.intentName);
             var ref = firebase.database().ref("lib/");
             ref.on("child_added", function (e) {
                 e.val();
             });
-        }
-        next(sendMessage(Result.fulfillment.speech, action.type, action.sender='bot'));
+        }*/
     }
     if(action.type === 'ON_MESSAGE'){
         const {text} = action.payload;
