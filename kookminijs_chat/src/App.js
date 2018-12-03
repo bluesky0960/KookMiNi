@@ -199,7 +199,7 @@ class App extends Component {
                         <div className="in_in_main">
                             <div className="message_card">
                                 <div id="search_from">
-                                    <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?" />
+                                    <textarea type="text" id="search_box" value={this.state.input} onChange={this._handleText} placeholder="?" />
                                     <button id="button_2" onClick={() => { this.search(this.state.input); }}>검색</button>
                                     <button id="button_2" onClick={() => { this.today_weather(); }}>날씨</button>
                                     <button id="button_2" onClick={() => { this.lib_sit(); }}>자리</button>
