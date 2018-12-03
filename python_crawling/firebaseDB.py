@@ -14,12 +14,21 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://kookmini-73ede.firebaseio.com/'
 })
 
-monday = pandas.date_range(start='20180901', end='20201231',freq='W-MON')
+def getWeekday():
+    
+    listOfMonday = pandas.date_range(start=datetime.date.today(), end='20201231',freq='W-MON')
+    monday = listOfMonday[0]
+    day = monday + datetime.timedelta(+1)
 
-friday = monday + datetime.timedelta(+4)
+    weekDay = []
+    
+    for i in range (0,7) :
+        day = (monday + datetime.timedelta(+i))
+        weekDay.append(day.strftime("%Y-%m-%d"))
+    
+    return weekDay
 
-print(monday)
-print(friday)
+weekDay = getWeekday()
 
 # Save data
 def db_weather():
@@ -53,6 +62,7 @@ def db_lib():
 
 if __name__ =="__main__":
     db_lib()
+    
 
 def db_food():
     print(100000)
@@ -61,26 +71,43 @@ def db_food():
     ref_food = db.reference('/food')
     ref_food.set(
         {
-            '법학관' :
-                    {
-                        '월요일' : data_food_bup[0],
-                        '화요일' : data_food_bup[1],
-                        '수요일' : data_food_bup[2],
-                        '목요일' : data_food_bup[3],
-                        '금요일' : data_food_bup[4],
-                        '토요일' : data_food_bup[5],
-                        '일요일' : data_food_bup[6],
-                    },
-            '학생식당' :
-                    {
-                        '월요일' : data_food_hak[0],
-                        '화요일' : data_food_hak[1],
-                        '수요일' : data_food_hak[2],
-                        '목요일' : data_food_hak[3],
-                        '금요일' : data_food_hak[4],
-                        '토요일' : data_food_hak[5],
-                        '일요일' : data_food_hak[6],
-                    }        
+
+            weekDay[0] :
+                        {
+                            '법학관' : data_food_bup[0],
+                            '학생식당' :  data_food_hak[0]
+                        },
+            
+            weekDay[1] :
+                        {
+                            '법학관' : data_food_bup[1],
+                            '학생식당' :  data_food_hak[1]                               
+                        },
+            weekDay[2] :
+                        {
+                            '법학관' : data_food_bup[2],
+                            '학생식당' :  data_food_hak[2]                               
+                        },                            
+            weekDay[3] :
+                        {
+                            '법학관' : data_food_bup[3],
+                            '학생식당' :  data_food_hak[3]                               
+                        },
+            weekDay[4] :
+                        {
+                            '법학관' : data_food_bup[4],
+                            '학생식당' :  data_food_hak[4]                               
+                        },
+            weekDay[5] :
+                        {
+                            '법학관' : data_food_bup[5],
+                            '학생식당' :  data_food_hak[5]                               
+                        },
+            weekDay[6] :
+                        {
+                            '법학관' : data_food_bup[6],
+                            '학생식당' :  data_food_hak[6]                               
+                        }                            
         }
     )   
 
