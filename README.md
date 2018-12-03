@@ -1,5 +1,9 @@
 # KookMiNi
 
+# Introduction
+
+Dialogflow를 이용한 학교 생활 지원 Chatbot
+
 # License
 
 This project is licensed under the MIT License
