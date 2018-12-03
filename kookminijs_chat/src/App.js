@@ -7,7 +7,6 @@ import { sendMessage } from "./chat";
 class App extends Component {
     constructor(props) {
         super(props); // 리액트 클래스의 생성자를 미리 실행후 state설정을 해준다.
-        this.checkAuthState();
 
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
@@ -53,6 +52,14 @@ class App extends Component {
         var d = document.getElementById("message");
         d.scrollTop = d.scrollHeight;
         console.log(d);
+    }     
+    componentDidMount() {
+        this.checkAuthState();
+        this.autoscroll();
+    }
+    
+    componentDidUpdate() {
+        this.autoscroll();
     }
     //입력 눌렀을 때 실행
     inputText = input => {
@@ -135,8 +142,9 @@ class App extends Component {
     keyReset() {
         document.getElementById("message_box").value = "";
         document.getElementById("search_box").value = "";
-        this.state.input = '';
+        this.setState({ input: "" });
     }
+ 
     //화면에 랜더링(표시)
     render() {
         const { feed } = this.props;
@@ -168,7 +176,7 @@ class App extends Component {
                                 <div id="message">{feed.map(entry => (
                                     <div sender={entry.sender}>
                                         {entry.text}
-                                        <button sender={entry.sender} onClick={() => {this.delete(entry.key);}}>X</button>
+                                        <button sender={entry.sender} onClick={() => {this.delete(entry.key);}}>X</button>      
                                     </div>
                                 ))}
                                 </div>
