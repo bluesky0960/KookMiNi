@@ -1,6 +1,6 @@
 # KookMiNi
 
-#License
+# License
 
 MIT License
 
