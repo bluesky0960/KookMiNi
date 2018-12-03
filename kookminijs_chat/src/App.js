@@ -129,6 +129,7 @@ class App extends Component {
 
     //도서관자리
     lib_sit(){
+        const { sendMessage } = this.props;
         var lib = firebase.database().ref("lib/");
         lib.on("child_added", function (e) {
             var txt = e.val();
@@ -142,6 +143,7 @@ class App extends Component {
 
     //날씨
     today_weather() {
+        const { sendMessage } = this.props;
         var weather = firebase.database().ref("weather/Jeju/");
         weather.on("child_added", function (e) {
             var txt = e.val();
