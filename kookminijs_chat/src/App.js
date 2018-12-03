@@ -18,7 +18,6 @@ class App extends Component {
         };
     }
 
-    
     _handleText = e => {
         console.log(typeof e.target.value);
         this.setState({ input: e.target.value });
@@ -28,15 +27,7 @@ class App extends Component {
     login = () => {
         auth.signInWithRedirect(provider);
     };
-    getRedirect = () => {
-        auth.getRedirectResult().then(function (result) {
-            const user = result.user;
-            this.setState({
-                user
-            });
-        });
-    };
-
+    
     //logout 버튼 실행시 user값 null
     logout = () => {
         auth.signOut().then(() => {
@@ -142,17 +133,6 @@ class App extends Component {
         //console.log(lib);
     }
 
-    //날씨
-    today_weather() {
-        const { sendMessage } = this.props;
-        var weather = firebase.database().ref("weather/Jeju/");
-        weather.on("child_added", function (e) {
-            var txt = e.val();
-            var key = e.key;
-            console.log(txt);
-            sendMessage(txt, "WEATHER_LIST", "bot_list");
-        });
-    }
 
     //수정함수
     updata = () => {
@@ -200,7 +180,7 @@ class App extends Component {
                         <div className="in_in_main">
                             <div className="message_card">
                                 <div id="search_from">
-                                    <textarea type="text" id="search_box"  onChange={this._handleText} placeholder="?" />
+                                    <textarea type="text" id="search_box" onChange={this._handleText} placeholder="?" />
                                     <button id="button_2" onClick={() => { this.search(this.state.input); }}>검색</button>
                                     <button id="button_2" onClick={() => { this.today_weather(); }}>날씨</button>
                                     <button id="button_2" onClick={() => { this.lib_sit(); }}>자리</button>
