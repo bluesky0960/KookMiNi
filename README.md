@@ -1,10 +1,10 @@
 # KookMiNi
 
-# Introduction
+## Introduction
 
 Dialogflow를 이용한 학교 생활 지원 Chatbot
 
-# Getting Started
+## Getting Started
 
 install npm
 
@@ -20,7 +20,7 @@ run
 ```
 npm start
 ```
-# License
+## License
 
 This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
 
