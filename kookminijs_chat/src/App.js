@@ -1,3 +1,4 @@
+//최종
 import React, { Component } from "react";
 import firebase, { auth, provider } from "./firebase";
 import { connect } from "react-redux";
