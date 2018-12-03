@@ -4,9 +4,25 @@
 
 Dialogflow를 이용한 학교 생활 지원 Chatbot
 
+# Getting Started
+
+install npm
+
+```
+npm install
+```
+Clone the repository and cd into it
+```
+git clone https://github.com/https://github.com/bluesky0960/KookMiNi.git
+cd KookMiNi
+```
+run 
+```
+npm start
+```
 # License
 
-This project is licensed under the MIT License
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
 
 Copyright (c) 2018 bluesky0960
 
