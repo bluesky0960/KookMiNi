@@ -17,7 +17,13 @@ class App extends Component {
             user: null
         };
     }
+    reset() {
+        this.setState({
+            input: ""
+        });
+    }
 
+    
     _handleText = e => {
         console.log(typeof e.target.value);
         this.setState({ input: e.target.value });
@@ -63,6 +69,7 @@ class App extends Component {
     }
     //입력 눌렀을 때 실행
     inputText = input => {
+        this.reset()
         const { sendMessage } = this.props;
         if (input === "") {
             return 0;
@@ -101,6 +108,7 @@ class App extends Component {
 
     //search + list
     search = input => {
+        this.reset()
         const { sendMessage } = this.props;
         if (this.state.user === null) {
             alert("로그인 먼저 해주세요");
