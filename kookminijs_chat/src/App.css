@@ -1,7 +1,7 @@
 .App {
   text-align: center;
 }
-div[sender='user'] {
+/*div[sender='user'] {
     text-align: right;
     border: 0.5px solid;
     border-color: gray;
@@ -12,8 +12,44 @@ div[sender='user'] {
     border-radius: 5px;
     background-color:cornsilk;  
 }
+*/
+div[sender='user'] {
+    display: inline-block;
+    text-align: right;
+    position: relative;
+    background: #93DAFF;
+    height:40px;
+    line-height: 40px;
+    width: 400px;
+    margin-top: 5px;
+    margin-left: auto;
+    padding-right: auto;
+    border-radius: 10px;    
+}
+div[sender='user']:after {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    z-index: -1;
+    background: #fff;
+    bottom: -20px;
+    left: 350px;
+}
+div[sender='user']:before {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    z-index: -1;
+    background: #93DAFF;
+    bottom: -15px;
+    left: 335px;
+}
 
-div[sender="bot"] {
+/* div[sender="bot"] {
     text-align: left;
     border: 0.5px solid blue;
     padding: 5px;
@@ -21,7 +57,42 @@ div[sender="bot"] {
     width: 400px;
     border-radius: 5px;
     background-color:aqua;
+} */
+
+div[sender="bot"] {
+    display: inline-block;
+    text-align: right;
+    position: relative;
+    background: #FFBEFF;
+    height: 40px;
+    line-height: 40px;
+    width: 400px;
+    border-radius: 10px;
+    margin-right: auto;
 }
+div[sender="bot"]:after {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    z-index: -1;
+    background: #fff;
+    bottom: -20px;
+    left: -10px;
+}
+div[sender="bot"]:before {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    z-index: -1;
+    background: #FFBEFF;
+    bottom: -15px;
+    left: 5px;
+}
+
 div[sender="bot_list"] {
     text-align: left;
     border: 0.5px solid red;
@@ -39,6 +110,40 @@ button[sender="bot_list"] {
     background-color: rgba( 255, 255, 255, 0);
     border-color: rgba( 255, 255, 255, 0);
 }
+
+/* div[sender="bot_list"] {
+    text-align: right;
+    position: relative;
+    background: rgb(247, 110, 247);
+    height: 40px;
+    line-height: 40px;
+    width: 400px;
+    border-radius: 10px;
+    margin-right: auto;
+}
+div[sender="bot_list"]:after {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    z-index: -1;
+    background: #fff;
+    bottom: -20px;
+    left: -10px;
+}
+div[sender="bot_list"]:before {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    z-index: -1;
+    background: rgb(247, 110, 247);
+    bottom: -15px;
+    left: 5px;
+} */
+
 button[sender="bot"] {
     visibility: hidden;
 }
