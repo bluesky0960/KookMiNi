@@ -7,11 +7,13 @@
     "cheerio": "^1.0.0-rc.2",
     "firebase": "^5.5.9",
     "node": "^11.2.0",
+    "fs": "0.0.1-security",
     "react": "^16.6.3",
     "react-dom": "^16.6.0",
     "react-redux": "^5.1.0",
     "react-scripts": "2.1.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "request": "^2.88.0"
   },
   "scripts": {
     "start": "react-scripts start",
