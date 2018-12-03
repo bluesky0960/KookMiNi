@@ -17,11 +17,6 @@ class App extends Component {
             user: null
         };
     }
-    reset() {
-        this.setState({
-            input: ""
-        });
-    }
 
     
     _handleText = e => {
@@ -69,7 +64,6 @@ class App extends Component {
     }
     //입력 눌렀을 때 실행
     inputText = input => {
-        this.reset()
         const { sendMessage } = this.props;
         if (input === "") {
             return 0;
@@ -108,7 +102,6 @@ class App extends Component {
 
     //search + list
     search = input => {
-        this.reset()
         const { sendMessage } = this.props;
         if (this.state.user === null) {
             alert("로그인 먼저 해주세요");
@@ -207,7 +200,7 @@ class App extends Component {
                         <div className="in_in_main">
                             <div className="message_card">
                                 <div id="search_from">
-                                    <textarea type="text" id="search_box" value={this.state.input} onChange={this._handleText} placeholder="?" />
+                                    <textarea type="text" id="search_box"  onChange={this._handleText} placeholder="?" />
                                     <button id="button_2" onClick={() => { this.search(this.state.input); }}>검색</button>
                                     <button id="button_2" onClick={() => { this.today_weather(); }}>날씨</button>
                                     <button id="button_2" onClick={() => { this.lib_sit(); }}>자리</button>
