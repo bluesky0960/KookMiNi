@@ -112,6 +112,7 @@ class App extends Component {
                 var message = e.val().txt;
                 console.log(message);
                 var key = e.key;
+                console.log(key);
                 if (input === "") {
                     sendMessage(message, "MEMO_LIST", "bot_list", key);
                 }
@@ -134,7 +135,7 @@ class App extends Component {
             var key = e.key;
             console.log(txt);
             console.log(key);
-            sendMessage(txt, 'LIB_LIST', 'bot_list', key);
+            sendMessage(txt, "LIB_LIST", "bot_list", key);
         });
         //console.log(lib);
     }
@@ -145,7 +146,7 @@ class App extends Component {
         weather.on("child_added", function (e) {
             var txt = e.val();
             var key = e.key;
-            //console.log(txt);
+            console.log(txt);
             sendMessage(txt, "WEATHER_LIST", "bot_list");
         });
     }
