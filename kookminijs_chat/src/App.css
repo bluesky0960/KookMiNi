@@ -146,6 +146,17 @@
     margin-inline-start: 0px;
     margin-inline-end: 0px;
   }
+  h2{
+    font-weight: 400;
+    font-size: x-large;
+    line-height: 40px;
+    margin: 24px 0;
+    padding: 0;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
   
   .sign_button{
     background: 0 0;
@@ -173,6 +184,7 @@
     line-height: 36px;
     vertical-align: middle;
   }
+  @media (max-height:700px){.sign_button{left : 70px;}}
 .os_button {
     background: 0 0;
     border: none;
@@ -190,6 +202,7 @@
     overflow: hidden;
     will-change: box-shadow;
 }
+@media (max-height:700px){.os_button{top: -10px; left : 10px;}}
   
   .main_message{
     position: relative;
