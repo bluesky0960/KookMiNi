@@ -4,6 +4,7 @@ import firebase, { auth, provider } from "./firebase";
 import { connect } from "react-redux";
 import "./App.css";
 import { sendMessage } from "./chat";
+import Modal from 'react-responsive-modal';
 
 class App extends Component {
     constructor(props) {
@@ -12,9 +13,13 @@ class App extends Component {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
 
+        this.onOpenModal = this.onOpenModal.bind(this);
+        this.onCloseModal = this.onCloseModal.bind(this);
+
         this.state = {
             input: "",
-            user: null
+            user: null,
+            open: false
         };
     }
 
@@ -54,7 +59,7 @@ class App extends Component {
         d.scrollTop = d.scrollHeight;
         console.log(d);
     }     
-    componentDidMount() {
+    componentDidMount() {      
         this.checkAuthState();
         this.autoscroll();
     }
@@ -139,6 +144,26 @@ class App extends Component {
         }
     };
 
+    
+    getOpenSourceList(){
+        var ref = firebase.database().ref("opensrc/data");
+        ref.on("value", function (e) {
+            var list = e.val();
+            console.log(list);
+            document.getElementById("opensrc").innerText=list;
+        });     
+    }
+
+    onOpenModal = () => {
+        this.setState({ open: true });
+  
+    };
+    
+    onCloseModal = () => {
+        this.setState({ open: false });
+    };
+    
+
     //입력창 초기화
     keyReset() {
         document.getElementById("message_box").value = "";
@@ -162,7 +187,7 @@ class App extends Component {
                             ): (
                                 <button className="sign_button" onClick={this.login}>Sign in with Google</button>
                                 )}
-                            <button className="os_button">☆</button>
+                            <button className="os_button" onClick={() => {this.onOpenModal()}}>☆</button>                                            
                         </div>
                     </div>
                 </header>
@@ -191,6 +216,15 @@ class App extends Component {
                         </div>
                     </div>
                 </main>
+                <Modal open={this.state.open} width="60%" height="80%" effect="fadeInUp" onClose={this.onCloseModal}>
+                    <div>
+                        <h2>
+                            <button id="open" onClick={() => this.getOpenSourceList()}>오픈소스 사용정보</button>
+                        </h2>                      
+                        <div id="opensrc"></div>
+                        <button id="close" onClick={() => this.onCloseModal()}>닫기</button>
+                    </div>
+                </Modal>
             </div>
         );
     }
