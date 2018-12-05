@@ -134,10 +134,14 @@ class App extends Component {
     //삭제 함수
     delete(e){
         //x버튼을 누루면
+        const { sendMessage } = this.props;
+        var txt = "갱신한 리스트입니다.";
         var tmp_key = firebase.database().ref("memos/" + this.state.user.uid + '/' + e);
         console.log(e);
-        if (window.confirm("삭제 할거임?")) {
+        if (window.confirm("삭제 하시겠습니까??")) {
             tmp_key.remove();
+            sendMessage(txt, "MEMO_LIST", "bot");
+            this.search();
         }
         else {
             return;
