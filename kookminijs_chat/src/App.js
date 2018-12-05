@@ -113,6 +113,10 @@ class App extends Component {
             return 0;
         }
         else {
+            var txt;
+            if (input === "") { txt = "저장된 메모 리스트입니다."; }
+            else { txt = input + "로 검색한 결과입니다."; }
+            sendMessage(txt, "MEMO_LIST", "bot");
             var ref = firebase.database().ref("memos/" + this.state.user.uid);
             ref.on("child_added", function (e) {
                 var message = e.val().txt;
@@ -121,9 +125,9 @@ class App extends Component {
                     sendMessage(message, "MEMO_LIST", "bot_list", key);
                 }
                 else {
+
                     if (message.match(input)) {
                         sendMessage(message, "MEMO_LIST", "bot_list", key);
-
                     }
                 }
             });
@@ -135,13 +139,17 @@ class App extends Component {
     delete(e){
         //x버튼을 누루면
         const { sendMessage } = this.props;
-        var txt = "갱신한 리스트입니다.";
+        var ref = firebase.database().ref("memos/" + this.state.user.uid);
         var tmp_key = firebase.database().ref("memos/" + this.state.user.uid + '/' + e);
+        var txt = "새로 갱신한 리스트입니다."
         console.log(e);
         if (window.confirm("삭제 하시겠습니까??")) {
             tmp_key.remove();
             sendMessage(txt, "MEMO_LIST", "bot");
-            this.search();
+            ref.on("child_added", function (e) {
+                var message = e.val().txt;
+                sendMessage(message, "MEMO_LIST", "bot_list");
+            });
         }
         else {
             return;
