@@ -27,7 +27,6 @@ const messageMiddleware = () => next => action =>{
                 var lib = firebase.database().ref("lib/");
                 lib.on("child_added", function (e) {
                     var txt = e.val();
-                    var key = e.key;
                     next(sendMessage(txt, action.type, action.sender='bot'));
                 });
                 break;
