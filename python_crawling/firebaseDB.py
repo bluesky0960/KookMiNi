@@ -16,7 +16,8 @@ firebase_admin.initialize_app(cred, {
 
 def getWeekday():
     
-    listOfMonday = pandas.date_range(start=datetime.date.today(), end='20201231',freq='W-MON')
+    firstDay = datetime.date.today() + datetime.timedelta(-6)
+    listOfMonday = pandas.date_range(start=firstDay, end='20201231',freq='W-MON')
     monday = listOfMonday[0]
     day = monday + datetime.timedelta(+1)
 
@@ -32,7 +33,7 @@ weekDay = getWeekday()
 
 # Save data
 def db_weather():
-    data_weather = weather.data_organizer(weather.get_weather(weather.url_builder('jeju')))
+    data_weather = weather.data_organizer(weather.get_weather(weather.url_builder('seoul')))
     ref_weather = db.reference('/weather')
     ref_weather.set(
         {
